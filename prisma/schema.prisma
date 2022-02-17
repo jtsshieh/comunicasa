@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+generator jsonSchema {
+  provider = "prisma-json-schema-generator"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  password String
+
+  // One to Many
+  chores Chore[]
+
+  // Many to Many
+  houseIds      String[] @db.Array(ObjectId)
+  houses        House[]  @relation("members", fields: [houseIds])
+  ownedHouseIds String[] @db.Array(ObjectId)
+  ownedHouses   House[]  @relation("owners", fields: [ownedHouseIds])
+  roomIds       String[] @db.Array(ObjectId)
+  rooms         Room[]   @relation(fields: [roomIds])
+}
+
+model House {
+  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+
+  ownerIds  String[] @db.Array(ObjectId)
+  memberIds String[] @db.Array(ObjectId)
+
+  owners  User[]  @relation("owners", fields: [ownerIds])
+  members User[]  @relation("members", fields: [memberIds])
+  rooms   Room[]
+  lists   List[]
+  chores  Chore[]
+}
+
+model Room {
+  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name String
+
+  houseId String @db.ObjectId
+  house   House  @relation(fields: [houseId], references: [id])
+
+  ownerIds String[] @db.Array(ObjectId)
+  owners   User[]   @relation(fields: [ownerIds])
+}
+
+model List {
+  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name String
+
+  houseId String @db.ObjectId
+  house   House  @relation(fields: [houseId], references: [id])
+
+  items ListItem[]
+}
+
+model ListItem {
+  id      String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  title   String
+  checked Boolean
+
+  listId String @db.ObjectId
+  list   List   @relation(fields: [listId], references: [id])
+}
+
+model Chore {
+  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  completed   Boolean
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  assignedToId String @db.ObjectId
+  houseId      String @db.ObjectId
+
+  assignedTo User  @relation(fields: [assignedToId], references: [id])
+  house      House @relation(fields: [houseId], references: [id])
+}

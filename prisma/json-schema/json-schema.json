@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "chores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chore"
+          }
+        },
+        "houses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/House"
+          }
+        },
+        "ownedHouses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/House"
+          }
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Room"
+          }
+        }
+      }
+    },
+    "House": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Room"
+          }
+        },
+        "lists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/List"
+          }
+        },
+        "chores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chore"
+          }
+        }
+      }
+    },
+    "Room": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "house": {
+          "$ref": "#/definitions/House"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+    "List": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "house": {
+          "$ref": "#/definitions/House"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ListItem"
+          }
+        }
+      }
+    },
+    "ListItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "checked": {
+          "type": "boolean"
+        },
+        "list": {
+          "$ref": "#/definitions/List"
+        }
+      }
+    },
+    "Chore": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "assignedTo": {
+          "$ref": "#/definitions/User"
+        },
+        "house": {
+          "$ref": "#/definitions/House"
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "user": {
+      "$ref": "#/definitions/User"
+    },
+    "house": {
+      "$ref": "#/definitions/House"
+    },
+    "room": {
+      "$ref": "#/definitions/Room"
+    },
+    "list": {
+      "$ref": "#/definitions/List"
+    },
+    "listItem": {
+      "$ref": "#/definitions/ListItem"
+    },
+    "chore": {
+      "$ref": "#/definitions/Chore"
+    }
+  }
+}

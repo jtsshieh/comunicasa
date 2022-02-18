@@ -1,5 +1,5 @@
 import { Button, TextField, Typography, useTheme } from '@mui/material';
-import { FocusEvent, FormEvent, useCallback, useRef, useState } from 'react';
+import { FocusEvent, FormEvent, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 

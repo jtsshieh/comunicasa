@@ -14,7 +14,6 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material';
-import { useUser } from '../../../lib/use-user';
 import { Navbar } from '../../../components/navbar';
 import { House } from '@prisma/client';
 import AddIcon from '@mui/icons-material/Add';
@@ -115,10 +114,10 @@ function HouseTile({ house }: { house: House }) {
 				<Typography variant="h4">{house.name}</Typography>
 				<AvatarGroup>
 					{house.ownerIds.map((owner) => (
-						<Avatar src={`/api/user/${owner}/avatar`} />
+						<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
 					))}
 					{house.memberIds.map((owner) => (
-						<Avatar src={`/api/user/${owner}/avatar`} />
+						<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
 					))}
 				</AvatarGroup>
 			</Paper>

@@ -1,23 +1,14 @@
 import { useUser } from '../lib/use-user';
 import {
-	Typography,
 	useTheme,
 	Link as MuiLink,
 	Button,
-	List,
-	ListItemButton,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
 	Popover,
 	Avatar,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { useCallback, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { ProfileDropdown } from './profile-dropdown';
 
 export function Navbar() {

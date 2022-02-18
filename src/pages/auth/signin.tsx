@@ -10,7 +10,6 @@ export default function SignIn() {
 		redirectTo: '/dashboard',
 		redirectIfFound: true,
 	});
-	const router = useRouter();
 	const [error, setError] = useState(false);
 	const onSubmit = useCallback(
 		async (e: FormEvent) => {

@@ -1,6 +1,5 @@
 import { useUser } from '../../lib/use-user';
 import {
-	Typography,
 	useTheme,
 	Link as MuiLink,
 	Button,
@@ -13,7 +12,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useHouse } from '../../lib/use-house';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import HomeIcon from '@mui/icons-material/Home';
 import { ProfileDropdown } from '../profile-dropdown';
 
 export function Navbar() {

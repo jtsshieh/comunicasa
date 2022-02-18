@@ -25,22 +25,41 @@ model User {
   chores Chore[]
 
   // Many to Many
-  houseIds      String[] @db.Array(ObjectId)
-  houses        House[]  @relation("members", fields: [houseIds])
-  ownedHouseIds String[] @db.Array(ObjectId)
-  ownedHouses   House[]  @relation("owners", fields: [ownedHouseIds])
-  roomIds       String[] @db.Array(ObjectId)
-  rooms         Room[]   @relation(fields: [roomIds])
+  ownedHouseIds  String[] @db.Array(ObjectId)
+  memberHouseIds String[] @db.Array(ObjectId)
+  guestHouseIds  String[] @db.Array(ObjectId)
+
+  ownedHouses  House[] @relation("owners", fields: [ownedHouseIds])
+  memberHouses House[] @relation("members", fields: [memberHouseIds])
+  guestHouses  House[] @relation("guests", fields: [guestHouseIds])
+
+  roomIds String[] @db.Array(ObjectId)
+  rooms   Room[]   @relation(fields: [roomIds])
+
+  avatar UserAvatar?
+}
+
+model UserAvatar {
+  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+
+  avatar Bytes
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model House {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name String
+
 
   ownerIds  String[] @db.Array(ObjectId)
   memberIds String[] @db.Array(ObjectId)
+  guestIds  String[] @db.Array(ObjectId)
 
   owners  User[]  @relation("owners", fields: [ownerIds])
   members User[]  @relation("members", fields: [memberIds])
+  guests  User[]  @relation("guests", fields: [guestIds])
   rooms   Room[]
   lists   List[]
   chores  Chore[]

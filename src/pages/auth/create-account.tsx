@@ -1,6 +1,7 @@
 import { Button, TextField, Typography, useTheme } from '@mui/material';
 import { FocusEvent, FormEvent, useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function SignIn() {
 	const theme = useTheme();
@@ -119,9 +120,12 @@ export default function SignIn() {
 					css={{
 						width: '100%',
 						display: 'flex',
-						justifyContent: 'flex-end',
+						justifyContent: 'space-between',
 					}}
 				>
+					<Link href="/auth/signin" passHref>
+						<Button>Iniciar sesión</Button>
+					</Link>
 					<Button variant="contained" type="submit">
 						Crear Cuenta
 					</Button>

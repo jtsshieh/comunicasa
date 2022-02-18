@@ -22,13 +22,19 @@
             "$ref": "#/definitions/Chore"
           }
         },
-        "houses": {
+        "ownedHouses": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/House"
           }
         },
-        "ownedHouses": {
+        "memberHouses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/House"
+          }
+        },
+        "guestHouses": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/House"
@@ -39,6 +45,30 @@
           "items": {
             "$ref": "#/definitions/Room"
           }
+        },
+        "avatar": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UserAvatar"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "UserAvatar": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
         }
       }
     },
@@ -48,6 +78,9 @@
         "id": {
           "type": "string"
         },
+        "name": {
+          "type": "string"
+        },
         "owners": {
           "type": "array",
           "items": {
@@ -55,6 +88,12 @@
           }
         },
         "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "guests": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/User"
@@ -176,6 +215,9 @@
   "properties": {
     "user": {
       "$ref": "#/definitions/User"
+    },
+    "userAvatar": {
+      "$ref": "#/definitions/UserAvatar"
     },
     "house": {
       "$ref": "#/definitions/House"

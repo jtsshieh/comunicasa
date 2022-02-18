@@ -1,0 +1,78 @@
+import { useUser } from '../lib/use-user';
+import {
+	Typography,
+	useTheme,
+	Link as MuiLink,
+	Button,
+	List,
+	ListItemButton,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+	Popover,
+	Avatar,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Link from 'next/link';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ProfileDropdown } from './profile-dropdown';
+
+export function Navbar() {
+	const theme = useTheme();
+	const { user } = useUser();
+	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+	if (!user) return <></>;
+	return (
+		<nav
+			css={{
+				padding: theme.spacing(2),
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+				backdropFilter: 'blur(5px)',
+				color: 'white',
+			}}
+		>
+			<div>
+				<Link href="/dashboard/houses" passHref>
+					<MuiLink variant="body1">Casas</MuiLink>
+				</Link>
+			</div>
+			<div>
+				<Button
+					endIcon={<ExpandMoreIcon />}
+					startIcon={
+						<Avatar alt="Avatar" src={`/api/user/${user.id}/avatar`} />
+					}
+					onClick={(e) => setAnchorEl(e.currentTarget)}
+					css={{
+						padding: theme.spacing(1),
+						fontWeight: 400,
+						fontSize: '1em',
+					}}
+				>
+					{user.name}
+				</Button>
+				<Popover
+					open={Boolean(anchorEl)}
+					anchorEl={anchorEl}
+					onClose={() => setAnchorEl(null)}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right',
+					}}
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+					}}
+				>
+					<ProfileDropdown />
+				</Popover>
+			</div>
+		</nav>
+	);
+}

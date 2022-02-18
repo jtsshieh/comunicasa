@@ -38,7 +38,7 @@ export default function SignIn() {
 				await mutateUser();
 			}
 		},
-		[mutateUser, router]
+		[mutateUser]
 	);
 	return (
 		<div
@@ -65,7 +65,7 @@ export default function SignIn() {
 				onSubmit={onSubmit}
 			>
 				<Typography align="center" variant="h2">
-					Inciar sesión
+					Iniciar sesión
 				</Typography>
 
 				<TextField

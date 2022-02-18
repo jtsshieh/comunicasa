@@ -1,6 +1,15 @@
-import { useUser } from '../../lib/use-user';
+import { Navbar } from '../../components/navbar';
+import { useTheme } from '@mui/material';
 
 export default function Dashboard() {
-	const { user } = useUser();
-	return <p></p>;
+	const theme = useTheme();
+	return (
+		<div
+			css={{
+				backgroundColor: theme.palette.background.default,
+			}}
+		>
+			<Navbar />
+		</div>
+	);
 }

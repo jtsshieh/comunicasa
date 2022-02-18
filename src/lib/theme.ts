@@ -1,12 +1,51 @@
-import { createTheme } from '@mui/material';
+import { alpha, createTheme } from '@mui/material';
 
 export const theme = createTheme({
 	components: {
+		MuiListItem: {
+			defaultProps: {
+				disablePadding: true,
+			},
+		},
+		MuiListItemButton: {
+			defaultProps: {
+				disableTouchRipple: true,
+			},
+			styleOverrides: {
+				root: ({ theme }) => ({
+					'&:hover': {
+						backgroundColor: theme.palette.primary.dark,
+					},
+				}),
+			},
+		},
+		MuiList: {
+			styleOverrides: {
+				root: ({ theme }) => ({
+					backgroundColor: theme.palette.primary.main,
+					borderRadius: '12px',
+				}),
+			},
+		},
+		MuiLink: {
+			defaultProps: {
+				underline: 'none',
+				color: '#c1c1c1',
+			},
+			styleOverrides: {
+				root: {
+					'&:hover': {
+						color: '#ffffff',
+					},
+				},
+			},
+		},
 		MuiButton: {
 			styleOverrides: {
 				root: {
-					borderRadius: '32px',
+					color: 'white',
 					padding: '12px 32px',
+					textTransform: 'none',
 				},
 			},
 			defaultProps: {
@@ -14,6 +53,10 @@ export const theme = createTheme({
 				disableElevation: true,
 			},
 		},
+	},
+
+	shape: {
+		borderRadius: '12px',
 	},
 
 	palette: {

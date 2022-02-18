@@ -15,7 +15,7 @@ export function useUser({
 
 		if (
 			(redirectTo && !redirectIfFound && error) ||
-			(redirectIfFound && user)
+			(redirectIfFound && !error && user)
 		) {
 			router.push(redirectTo);
 		}

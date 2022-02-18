@@ -26,18 +26,24 @@ export default withSessionRoute(async function handler(
 			where: {
 				OR: [
 					{
-						ownerIds: {
-							has: req.session.user,
+						owners: {
+							some: {
+								id: { equals: req.session.user },
+							},
 						},
 					},
 					{
-						memberIds: {
-							has: req.session.user,
+						members: {
+							some: {
+								id: { equals: req.session.user },
+							},
 						},
 					},
 					{
-						guestIds: {
-							has: req.session.user,
+						guests: {
+							some: {
+								id: { equals: req.session.user },
+							},
 						},
 					},
 				],

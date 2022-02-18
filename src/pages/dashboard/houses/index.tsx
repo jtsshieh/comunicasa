@@ -100,8 +100,11 @@ function HouseTile({ house }: { house: House }) {
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					paddingBottom: '100%',
-					height: 0,
+					'&::before': {
+						display: 'block',
+						content: '""',
+						paddingBottom: '100%',
+					},
 					'&:hover': {
 						cursor: 'pointer',
 						backgroundColor: alpha(
@@ -111,15 +114,24 @@ function HouseTile({ house }: { house: House }) {
 					},
 				}}
 			>
-				<Typography variant="h4">{house.name}</Typography>
-				<AvatarGroup>
-					{house.ownerIds.map((owner) => (
-						<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
-					))}
-					{house.memberIds.map((owner) => (
-						<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
-					))}
-				</AvatarGroup>
+				<div
+					css={{
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Typography variant="h4" align="center">
+						{house.name}
+					</Typography>
+					<AvatarGroup>
+						{house.ownerIds.map((owner) => (
+							<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
+						))}
+						{house.memberIds.map((owner) => (
+							<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
+						))}
+					</AvatarGroup>
+				</div>
 			</Paper>
 		</Link>
 	);

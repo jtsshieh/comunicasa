@@ -35,7 +35,7 @@ export default function Home() {
 				</Typography>
 				<Link href="/auth/signin" passHref>
 					<Button size="large" variant="contained">
-						Inciar sesión
+						Iniciar sesión
 					</Button>
 				</Link>
 			</div>

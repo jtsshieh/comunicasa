@@ -30,7 +30,9 @@ import {
 export default function Rooms() {
 	const theme = useTheme();
 	const router = useRouter();
-	const { data: rooms } = useSWR<Room[]>(`/api/house/${router.query.id}/rooms`);
+	const { data: rooms } = useSWR<Room[]>(
+		router.query.id && `/api/house/${router.query.id}/rooms`
+	);
 	const [showModal, setShowModal] = useState(false);
 
 	return (

@@ -11,6 +11,7 @@ import { Navbar } from '../../components/navbar';
 import { useUser } from '../../lib/hooks/use-user';
 import { ChangeEvent, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import { Panel } from '../../components/panel';
 
 export default function Settings() {
 	const theme = useTheme();
@@ -88,16 +89,7 @@ function AvatarPanel() {
 
 	if (!user) return <></>;
 	return (
-		<Paper
-			css={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: theme.spacing(2),
-				padding: theme.spacing(4),
-				justifyContent: 'center',
-				width: '100%',
-			}}
-		>
+		<Panel>
 			<Typography variant="h3">Cambiar Avatar</Typography>
 			<div css={{ display: 'flex', gap: theme.spacing(4) }}>
 				<Avatar
@@ -136,6 +128,6 @@ function AvatarPanel() {
 					</Button>
 				</div>
 			</div>
-		</Paper>
+		</Panel>
 	);
 }

@@ -27,6 +27,7 @@ import { Navbar } from '../../../../../components/houses/navbar';
 import { useHouse } from '../../../../../lib/hooks/use-house';
 import { useSnackbar } from 'notistack';
 import { useUser } from '../../../../../lib/hooks/use-user';
+import { Panel } from '../../../../../components/panel';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -120,15 +121,7 @@ function NameChangePanel() {
 	}, [enqueueSnackbar, name, router.query.id, router.query.roomId]);
 
 	return (
-		<Paper
-			css={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: theme.spacing(2),
-				padding: theme.spacing(4),
-				width: '100%',
-			}}
-		>
+		<Panel>
 			<Typography variant="h3">Cambiar el nombre</Typography>
 			<div
 				css={{
@@ -149,7 +142,7 @@ function NameChangePanel() {
 					Cambiar
 				</Button>
 			</div>
-		</Paper>
+		</Panel>
 	);
 }
 
@@ -204,15 +197,7 @@ function ManageOwnersPanels() {
 	const isElevated = people.owners.some((o) => o.id === user.id);
 
 	return (
-		<Paper
-			css={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: theme.spacing(2),
-				padding: theme.spacing(4),
-				width: '100%',
-			}}
-		>
+		<Panel>
 			<Typography variant="h3">Administrar propietarios</Typography>
 
 			<Stack direction="row" spacing={1}>
@@ -275,7 +260,7 @@ function ManageOwnersPanels() {
 					Agregar
 				</Button>
 			</div>
-		</Paper>
+		</Panel>
 	);
 }
 
@@ -284,13 +269,8 @@ function DeleteRoomPanel() {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
-		<Paper
+		<Panel
 			css={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: theme.spacing(2),
-				padding: theme.spacing(4),
-				width: '100%',
 				border: 'solid 1px red',
 			}}
 		>
@@ -309,7 +289,7 @@ function DeleteRoomPanel() {
 			>
 				Eliminar
 			</Button>
-		</Paper>
+		</Panel>
 	);
 }
 function DeleteRoomConfirmation({

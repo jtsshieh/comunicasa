@@ -16,6 +16,7 @@ import { Navbar } from '../../../../components/houses/navbar';
 import { useCallback, useState } from 'react';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
+import { Panel } from '../../../../components/panel';
 
 export default function HouseConfiguration() {
 	const theme = useTheme();
@@ -57,13 +58,8 @@ export default function HouseConfiguration() {
 					}}
 				>
 					<Typography variant="h2">Configuración</Typography>
-					<Paper
+					<Panel
 						css={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: theme.spacing(2),
-							padding: theme.spacing(4),
-							width: '100%',
 							border: 'solid 1px red',
 						}}
 					>
@@ -78,7 +74,7 @@ export default function HouseConfiguration() {
 						>
 							Eliminar
 						</Button>
-					</Paper>
+					</Panel>
 				</Container>
 			)}
 		</div>

@@ -31,7 +31,7 @@ export default function Home() {
 				}}
 			>
 				<Typography align="center" variant="h1">
-					Bienvenido a Nuestra Casa
+					Bienvenido a Comunicasa
 				</Typography>
 				<Link href="/auth/signin" passHref>
 					<Button size="large" variant="contained">

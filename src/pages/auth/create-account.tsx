@@ -19,13 +19,27 @@ export default function SignIn() {
 				email: target.email.value,
 				password: target.password.value,
 			};
-			await fetch('/api/user', {
+			const res = await fetch('/api/user', {
 				method: 'POST',
 				body: JSON.stringify(payload),
 				headers: {
 					'content-type': 'application/json',
 				},
 			});
+			const user = await res.json();
+
+			const loginPayload = {
+				email: target.email.value,
+				password: target.password.value,
+			};
+			await fetch('/api/auth/signin', {
+				method: 'POST',
+				body: JSON.stringify(loginPayload),
+				headers: {
+					'content-type': 'application/json',
+				},
+			});
+
 			await router.push('/dashboard');
 		},
 		[router]

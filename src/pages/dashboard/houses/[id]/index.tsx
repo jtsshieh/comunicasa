@@ -4,7 +4,7 @@ import { useHouse } from '../../../../lib/use-house';
 
 export default function House() {
 	const theme = useTheme();
-	const { house } = useHouse();
+	const house = useHouse();
 
 	return (
 		<div

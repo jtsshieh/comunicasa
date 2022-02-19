@@ -1,6 +1,7 @@
 import {
 	Button,
 	CircularProgress,
+	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -15,10 +16,11 @@ import { Navbar } from '../../../../components/houses/navbar';
 import { useCallback, useState } from 'react';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 export default function HouseConfiguration() {
 	const theme = useTheme();
-	const { house } = useHouse();
+	const house = useHouse();
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -49,36 +51,38 @@ export default function HouseConfiguration() {
 				<>
 					<Navbar />
 
-					<div
+					<Container
 						css={{
-							marginTop: theme.spacing(4),
 							display: 'flex',
 							flexDirection: 'column',
 							alignItems: 'center',
-							justifyContent: 'center',
+							gap: theme.spacing(4),
 						}}
 					>
+						<Typography variant="h2">Configuración</Typography>
 						<Paper
 							css={{
 								display: 'flex',
 								flexDirection: 'column',
 								gap: theme.spacing(2),
 								padding: theme.spacing(4),
+								width: '100%',
+								border: 'solid 1px red',
 							}}
 						>
-							<Typography variant="h3">Borrar la casa</Typography>
+							<Typography variant="h3">Eliminar la casa</Typography>
 							<Typography variant="body1">
-								Borrar la casa es permanente. ¡No puede recuperar!
+								Eliminar la casa es permanente. ¡No puede recuperar!
 							</Typography>
 							<Button
 								variant="contained"
 								color="error"
 								onClick={() => setShowModal(true)}
 							>
-								Borrar
+								Eliminar
 							</Button>
 						</Paper>
-					</div>
+					</Container>
 				</>
 			)}
 		</div>
@@ -92,8 +96,9 @@ function DeleteHouseConfirmation({
 	open: boolean;
 	handleClose: () => void;
 }) {
-	const { house } = useHouse();
+	const house = useHouse();
 	const router = useRouter();
+	const { enqueueSnackbar } = useSnackbar();
 
 	const handleDelete = useCallback(async () => {
 		if (!house) return;
@@ -109,16 +114,16 @@ function DeleteHouseConfirmation({
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>Borrar Casa</DialogTitle>
+			<DialogTitle>¿Eliminar la casa?</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					¿Está seguro de que quiere borrar esta casa? ¡No puede recuperar!
+					¿Está seguro de que quiere eliminar esta casa? ¡No puede recuperar!
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={handleClose}>Cancelar</Button>
 				<Button onClick={handleDelete} variant="contained" color="error">
-					Borrar
+					Eliminar
 				</Button>
 			</DialogActions>
 		</Dialog>

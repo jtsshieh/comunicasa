@@ -18,7 +18,7 @@ export function Navbar() {
 	const theme = useTheme();
 	const { user } = useUser();
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-	const { house } = useHouse();
+	const house = useHouse();
 
 	if (!user || !house) return <></>;
 	const navbarItems = [

@@ -13,7 +13,6 @@ import {
 	ListItemIcon,
 	Menu,
 	MenuItem,
-	MenuList,
 	Paper,
 	Select,
 	TextField,
@@ -22,7 +21,7 @@ import {
 } from '@mui/material';
 import { useHouse } from '../../../../lib/use-house';
 import { Navbar } from '../../../../components/houses/navbar';
-import { House, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { FormEvent, useCallback, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate } from 'swr';
@@ -333,7 +332,6 @@ function MembersGroup({
 	handleChange: (user: string, role: string) => void;
 }) {
 	const theme = useTheme();
-	const router = useRouter();
 	return (
 		<>
 			{people.map((person) => (

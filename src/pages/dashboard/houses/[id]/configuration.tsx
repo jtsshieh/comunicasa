@@ -95,7 +95,6 @@ function DeleteHouseConfirmation({
 }) {
 	const house = useHouse();
 	const router = useRouter();
-	const { enqueueSnackbar } = useSnackbar();
 
 	const handleDelete = useCallback(async () => {
 		if (!house) return;

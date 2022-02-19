@@ -21,8 +21,6 @@ import useSWR, { mutate } from 'swr';
 import { FormEvent, useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useHouse } from '../../../../../lib/use-house';
-import { useSnackbar } from 'notistack';
 
 export default function Rooms() {
 	const theme = useTheme();

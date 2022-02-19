@@ -63,7 +63,8 @@ export default function Rooms() {
 				>
 					<CircularProgress />
 				</div>
-			) : room.ownerIds.includes(user.id) ? (
+			) : room.ownerIds.includes(user.id) ||
+			  house.ownerIds.includes(user.id) ? (
 				<Container
 					css={{
 						display: 'flex',

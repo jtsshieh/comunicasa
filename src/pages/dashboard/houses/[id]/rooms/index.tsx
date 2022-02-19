@@ -14,16 +14,20 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material';
-import { Navbar } from '../../../components/navbar';
-import { House } from '@prisma/client';
+import { Navbar } from '../../../../../components/houses/navbar';
+import { Room } from '@prisma/client';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate } from 'swr';
 import { FormEvent, useCallback, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useHouse } from '../../../../../lib/use-house';
+import { useSnackbar } from 'notistack';
 
-export default function Dashboard() {
+export default function Rooms() {
 	const theme = useTheme();
-	const { data: houses } = useSWR<House[]>('/api/house');
+	const router = useRouter();
+	const { data: rooms } = useSWR<Room[]>(`/api/house/${router.query.id}/rooms`);
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -34,14 +38,14 @@ export default function Dashboard() {
 			}}
 		>
 			<Navbar />
-			<CreateHouseModal
+			<CreateRoomModal
 				open={showModal}
 				handleClose={() => setShowModal(false)}
 			/>
-			{!houses ? (
+			{!rooms ? (
 				<div
 					css={{
-						height: '100vh',
+						height: '100%',
 						width: '100vw',
 						display: 'flex',
 						alignItems: 'center',
@@ -60,8 +64,8 @@ export default function Dashboard() {
 						padding: theme.spacing(2),
 					}}
 				>
-					{houses.map((house) => (
-						<HouseTile key={house.id} house={house} />
+					{rooms.map((room) => (
+						<RoomTile key={room.id} room={room} />
 					))}
 					<Paper
 						css={{
@@ -91,11 +95,12 @@ export default function Dashboard() {
 	);
 }
 
-function HouseTile({ house }: { house: House }) {
+function RoomTile({ room }: { room: Room }) {
 	const theme = useTheme();
+	const router = useRouter();
 
 	return (
-		<Link href={`/dashboard/houses/${house.id}`}>
+		<Link href={`/dashboard/houses/${router.query.id}/rooms/${room.id}`}>
 			<Paper
 				css={{
 					display: 'flex',
@@ -124,13 +129,10 @@ function HouseTile({ house }: { house: House }) {
 						align="center"
 						css={{ overflowWrap: 'anywhere' }}
 					>
-						{house.name}
+						{room.name}
 					</Typography>
 					<AvatarGroup css={{ justifyContent: 'center' }}>
-						{house.ownerIds.map((owner) => (
-							<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
-						))}
-						{house.memberIds.map((owner) => (
+						{room.ownerIds.map((owner) => (
 							<Avatar key={owner} src={`/api/user/${owner}/avatar`} />
 						))}
 					</AvatarGroup>
@@ -140,13 +142,14 @@ function HouseTile({ house }: { house: House }) {
 	);
 }
 
-function CreateHouseModal({
+function CreateRoomModal({
 	open,
 	handleClose,
 }: {
 	open: boolean;
 	handleClose: () => void;
 }) {
+	const router = useRouter();
 	const handleCreate = useCallback(
 		async (e: FormEvent) => {
 			e.preventDefault();
@@ -156,7 +159,7 @@ function CreateHouseModal({
 			const payload = {
 				name: target.name.value,
 			};
-			const house = await fetch('/api/house', {
+			const house = await fetch(`/api/house/${router.query.id}/rooms`, {
 				method: 'POST',
 				body: JSON.stringify(payload),
 				headers: {
@@ -165,10 +168,10 @@ function CreateHouseModal({
 			});
 			if (house.ok) {
 				handleClose();
-				await mutate('/api/house');
+				await mutate(`/api/house/${router.query.id}/rooms`);
 			}
 		},
-		[handleClose]
+		[router, handleClose]
 	);
 
 	return (
@@ -178,16 +181,16 @@ function CreateHouseModal({
 			// @ts-ignore
 			PaperProps={{ component: 'form', onSubmit: handleCreate }}
 		>
-			<DialogTitle>Crear Casa</DialogTitle>
+			<DialogTitle>Crear Cuarto</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					¡Dale un nombre a tu casa! Después de crearla, puede agregar a su
-					familia.
+					¡Dale un nombre a tu cuarto! Después de crearlo, puede agregar
+					personas al cuarto.
 				</DialogContentText>
 				<TextField
 					autoFocus
 					name="name"
-					label="El nombre de casa"
+					label="El nombre de cuarto"
 					fullWidth
 					variant="outlined"
 					margin="normal"

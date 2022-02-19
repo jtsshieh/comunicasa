@@ -76,6 +76,7 @@ export default function HousePeople() {
 				color: 'white',
 			}}
 		>
+			<Navbar />
 			<AddPersonModal key={id} open={open} handleClose={handleClose} />
 			{!house || !people || !user ? (
 				<div
@@ -90,51 +91,47 @@ export default function HousePeople() {
 					<CircularProgress />
 				</div>
 			) : (
-				<>
-					<Navbar />
-					<Container
+				<Container
+					css={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: theme.spacing(4),
+					}}
+				>
+					<Typography variant="h2">Las Gentes</Typography>
+					<Paper
 						css={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							gap: theme.spacing(4),
+							display: 'grid',
+							gridTemplateColumns: '7fr 3fr 56px',
+							padding: theme.spacing(2),
+							rowGap: theme.spacing(2),
+							width: '100%',
 						}}
 					>
-						<Typography variant="h2">Las Gentes</Typography>
-						<Paper
-							css={{
-								display: 'grid',
-								gridTemplateColumns: '7fr 3fr 56px',
-								padding: theme.spacing(2),
-								rowGap: theme.spacing(2),
-								width: '100%',
-								boxSizing: 'border-box',
-							}}
-						>
-							<Typography variant="subtitle1">Las gentes</Typography>
-							<Typography variant="subtitle1" align="center">
-								El rol
-							</Typography>
-							<div />
-							<OwnersGroup people={people.owners} />
-							<MembersGroup
-								people={people.members}
-								canChange={isOwner}
-								handleChange={handleChange}
-							/>
-							<GuestsGroup
-								people={people.guests}
-								canChange={isOwner}
-								handleChange={handleChange}
-							/>
-							{isOwner && (
-								<Button css={{ gridColumn: '1 / span 3' }} onClick={show}>
-									<AddIcon />
-								</Button>
-							)}
-						</Paper>
-					</Container>
-				</>
+						<Typography variant="subtitle1">Las gentes</Typography>
+						<Typography variant="subtitle1" align="center">
+							El rol
+						</Typography>
+						<div />
+						<OwnersGroup people={people.owners} />
+						<MembersGroup
+							people={people.members}
+							canChange={isOwner}
+							handleChange={handleChange}
+						/>
+						<GuestsGroup
+							people={people.guests}
+							canChange={isOwner}
+							handleChange={handleChange}
+						/>
+						{isOwner && (
+							<Button css={{ gridColumn: '1 / span 3' }} onClick={show}>
+								<AddIcon />
+							</Button>
+						)}
+					</Paper>
+				</Container>
 			)}
 		</div>
 	);

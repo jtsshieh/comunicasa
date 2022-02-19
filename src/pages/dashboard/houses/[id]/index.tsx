@@ -14,6 +14,8 @@ export default function House() {
 				color: 'white',
 			}}
 		>
+			<Navbar />
+
 			{!house ? (
 				<div
 					css={{
@@ -27,22 +29,18 @@ export default function House() {
 					<CircularProgress />
 				</div>
 			) : (
-				<>
-					<Navbar />
-
-					<div
-						css={{
-							marginTop: theme.spacing(4),
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						<Typography variant="h2">Bienvenido a tu casa</Typography>
-						<Typography variant="h3">{house.name}</Typography>
-					</div>
-				</>
+				<div
+					css={{
+						marginTop: theme.spacing(4),
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					<Typography variant="h2">Bienvenido a tu casa</Typography>
+					<Typography variant="h3">{house.name}</Typography>
+				</div>
 			)}
 		</div>
 	);

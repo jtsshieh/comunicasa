@@ -31,6 +31,7 @@ export default function HouseConfiguration() {
 				color: 'white',
 			}}
 		>
+			<Navbar />
 			<DeleteHouseConfirmation
 				open={showModal}
 				handleClose={() => setShowModal(false)}
@@ -48,42 +49,38 @@ export default function HouseConfiguration() {
 					<CircularProgress />
 				</div>
 			) : (
-				<>
-					<Navbar />
-
-					<Container
+				<Container
+					css={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: theme.spacing(4),
+					}}
+				>
+					<Typography variant="h2">Configuración</Typography>
+					<Paper
 						css={{
 							display: 'flex',
 							flexDirection: 'column',
-							alignItems: 'center',
-							gap: theme.spacing(4),
+							gap: theme.spacing(2),
+							padding: theme.spacing(4),
+							width: '100%',
+							border: 'solid 1px red',
 						}}
 					>
-						<Typography variant="h2">Configuración</Typography>
-						<Paper
-							css={{
-								display: 'flex',
-								flexDirection: 'column',
-								gap: theme.spacing(2),
-								padding: theme.spacing(4),
-								width: '100%',
-								border: 'solid 1px red',
-							}}
+						<Typography variant="h3">Eliminar la casa</Typography>
+						<Typography variant="body1">
+							Eliminar la casa es permanente. ¡No puede recuperar!
+						</Typography>
+						<Button
+							variant="contained"
+							color="error"
+							onClick={() => setShowModal(true)}
 						>
-							<Typography variant="h3">Eliminar la casa</Typography>
-							<Typography variant="body1">
-								Eliminar la casa es permanente. ¡No puede recuperar!
-							</Typography>
-							<Button
-								variant="contained"
-								color="error"
-								onClick={() => setShowModal(true)}
-							>
-								Eliminar
-							</Button>
-						</Paper>
-					</Container>
-				</>
+							Eliminar
+						</Button>
+					</Paper>
+				</Container>
 			)}
 		</div>
 	);

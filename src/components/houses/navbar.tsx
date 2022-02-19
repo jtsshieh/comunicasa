@@ -5,6 +5,7 @@ import {
 	Button,
 	Popover,
 	Avatar,
+	darken,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
@@ -60,7 +61,7 @@ export function Navbar() {
 				padding: theme.spacing(2),
 				display: 'flex',
 				alignItems: 'center',
-				backdropFilter: 'blur(5px)',
+				backgroundColor: darken(theme.palette.background.default, 0.5),
 				color: 'white',
 			}}
 		>

@@ -96,6 +96,8 @@ export default function HousePeople() {
 						flexDirection: 'column',
 						alignItems: 'center',
 						gap: theme.spacing(4),
+						paddingTop: theme.spacing(4),
+						paddingBottom: theme.spacing(4),
 					}}
 				>
 					<Typography align="center" variant="h2">

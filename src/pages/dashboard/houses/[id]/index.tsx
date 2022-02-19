@@ -36,6 +36,8 @@ export default function House() {
 						flexDirection: 'column',
 						alignItems: 'center',
 						justifyContent: 'center',
+						paddingTop: theme.spacing(4),
+						paddingBottom: theme.spacing(4),
 					}}
 				>
 					<Typography variant="h2">Bienvenido a tu casa</Typography>

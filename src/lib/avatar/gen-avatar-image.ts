@@ -1,6 +1,6 @@
 import jimp from 'jimp';
 import path from 'path';
-import { fileURLToPath } from 'url';
+
 export async function genAvatarImage(name: string) {
 	let initials = name.split(' ');
 	if (initials.length > 3) initials = initials.slice(2);
@@ -9,10 +9,7 @@ export async function genAvatarImage(name: string) {
 	const avatar = await jimp.create(256, 256, '#ffffff');
 
 	const font = await jimp.loadFont(
-		path.join(
-			path.dirname(fileURLToPath(import.meta.url)),
-			'./fonts/open-sans-128-black.fnt'
-		)
+		path.join(process.cwd(), './fonts/open-sans-128-black.fnt')
 	);
 
 	avatar.print(

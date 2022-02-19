@@ -18,13 +18,14 @@ import { Navbar } from '../../../components/navbar';
 import { House } from '@prisma/client';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate } from 'swr';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback } from 'react';
 import Link from 'next/link';
+import { useDialogState } from '../../../lib/hooks/use-dialog-state';
 
 export default function Dashboard() {
 	const theme = useTheme();
 	const { data: houses } = useSWR<House[]>('/api/house');
-	const [showModal, setShowModal] = useState(false);
+	const { open, show, handleClose, id } = useDialogState();
 
 	return (
 		<div
@@ -34,10 +35,7 @@ export default function Dashboard() {
 			}}
 		>
 			<Navbar />
-			<CreateHouseModal
-				open={showModal}
-				handleClose={() => setShowModal(false)}
-			/>
+			<CreateHouseModal key={id} open={open} handleClose={handleClose} />
 			{!houses ? (
 				<div
 					css={{
@@ -81,7 +79,7 @@ export default function Dashboard() {
 								),
 							},
 						}}
-						onClick={() => setShowModal(true)}
+						onClick={show}
 					>
 						<AddIcon />
 					</Paper>

@@ -19,7 +19,7 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material';
-import { useHouse } from '../../../../lib/use-house';
+import { useHouse } from '../../../../lib/hooks/use-house';
 import { Navbar } from '../../../../components/houses/navbar';
 import { User } from '@prisma/client';
 import { FormEvent, useCallback, useState } from 'react';
@@ -27,8 +27,8 @@ import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
-import { useDialogState } from '../../../../lib/use-dialog-state';
-import { useUser } from '../../../../lib/use-user';
+import { useDialogState } from '../../../../lib/hooks/use-dialog-state';
+import { useUser } from '../../../../lib/hooks/use-user';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { grey } from '@mui/material/colors';
@@ -103,7 +103,7 @@ export default function HousePeople() {
 						css={{
 							display: 'grid',
 							gridTemplateColumns: '7fr 3fr 56px',
-							padding: theme.spacing(2),
+							padding: theme.spacing(4),
 							rowGap: theme.spacing(2),
 							width: '100%',
 						}}

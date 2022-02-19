@@ -1,6 +1,6 @@
 import { Navbar } from '../../../../components/houses/navbar';
 import { CircularProgress, Typography, useTheme } from '@mui/material';
-import { useHouse } from '../../../../lib/use-house';
+import { useHouse } from '../../../../lib/hooks/use-house';
 
 export default function House() {
 	const theme = useTheme();

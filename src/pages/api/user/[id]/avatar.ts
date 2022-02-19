@@ -1,8 +1,8 @@
 import { withSessionRoute } from '../../../../lib/session';
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../lib/prisma';
-import { genAvatarImage } from '../../../../lib/gen-avatar-image';
-import { resizeAvatarImage } from '../../../../lib/resize-avatar-image';
+import { genAvatarImage } from '../../../../lib/avatar/gen-avatar-image';
+import { resizeAvatarImage } from '../../../../lib/avatar/resize-avatar-image';
 import busboy, { Busboy } from 'busboy';
 import concat from 'concat-stream';
 

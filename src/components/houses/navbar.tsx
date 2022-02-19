@@ -1,4 +1,4 @@
-import { useUser } from '../../lib/use-user';
+import { useUser } from '../../lib/hooks/use-user';
 import {
 	useTheme,
 	Link as MuiLink,
@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useHouse } from '../../lib/use-house';
+import { useHouse } from '../../lib/hooks/use-house';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import { ProfileDropdown } from '../profile-dropdown';
 

@@ -1,8 +1,7 @@
 import { Button, TextField, Typography, useTheme } from '@mui/material';
 import Link from 'next/link';
 import { FormEvent, useCallback, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useUser } from '../../lib/use-user';
+import { useUser } from '../../lib/hooks/use-user';
 
 export default function SignIn() {
 	const theme = useTheme();

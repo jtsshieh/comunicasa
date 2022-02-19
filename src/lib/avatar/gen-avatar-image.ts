@@ -11,7 +11,7 @@ export async function genAvatarImage(name: string) {
 	const font = await jimp.loadFont(
 		path.join(
 			path.dirname(fileURLToPath(import.meta.url)),
-			'./open-sans-128-black.fnt'
+			'./fonts/open-sans-128-black.fnt'
 		)
 	);
 

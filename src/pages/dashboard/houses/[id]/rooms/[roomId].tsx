@@ -24,9 +24,9 @@ import useSWR, { mutate } from 'swr';
 import { Room, User } from '@prisma/client';
 import { useCallback, useEffect, useState } from 'react';
 import { Navbar } from '../../../../../components/houses/navbar';
-import { useHouse } from '../../../../../lib/use-house';
+import { useHouse } from '../../../../../lib/hooks/use-house';
 import { useSnackbar } from 'notistack';
-import { useUser } from '../../../../../lib/use-user';
+import { useUser } from '../../../../../lib/hooks/use-user';
 
 export default function Rooms() {
 	const theme = useTheme();

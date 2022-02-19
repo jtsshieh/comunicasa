@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import argon2 from 'argon2';
 import { withSessionRoute } from '../../../lib/session';
-import { genAvatarImage } from '../../../lib/gen-avatar-image';
+import { genAvatarImage } from '../../../lib/avatar/gen-avatar-image';
 
 export default withSessionRoute(async function handler(
 	req: NextApiRequest,

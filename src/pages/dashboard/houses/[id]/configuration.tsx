@@ -11,12 +11,11 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material';
-import { useHouse } from '../../../../lib/use-house';
+import { useHouse } from '../../../../lib/hooks/use-house';
 import { Navbar } from '../../../../components/houses/navbar';
 import { useCallback, useState } from 'react';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
 
 export default function HouseConfiguration() {
 	const theme = useTheme();

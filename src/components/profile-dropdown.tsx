@@ -1,4 +1,4 @@
-import { useUser } from '../lib/use-user';
+import { useUser } from '../lib/hooks/use-user';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import {

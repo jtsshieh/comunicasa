@@ -21,6 +21,11 @@ import useSWR, { mutate } from 'swr';
 import { FormEvent, useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import {
+	MasterTile,
+	Tile,
+	TileContainer,
+} from '../../../../../components/tiles';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -53,41 +58,14 @@ export default function Rooms() {
 					<CircularProgress />
 				</div>
 			) : (
-				<div
-					css={{
-						display: 'grid',
-						gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-						gridAutoRows: '1fr',
-						gap: theme.spacing(2),
-						padding: theme.spacing(2),
-					}}
-				>
+				<TileContainer>
 					{rooms.map((room) => (
 						<RoomTile key={room.id} room={room} />
 					))}
-					<Paper
-						css={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							'&::before': {
-								display: 'block',
-								content: '""',
-								paddingBottom: '100%',
-							},
-							'&:hover': {
-								cursor: 'pointer',
-								backgroundColor: alpha(
-									theme.palette.background.paper,
-									1 - theme.palette.action.hoverOpacity
-								),
-							},
-						}}
-						onClick={() => setShowModal(true)}
-					>
+					<MasterTile onClick={() => setShowModal(true)}>
 						<AddIcon />
-					</Paper>
-				</div>
+					</MasterTile>
+				</TileContainer>
 			)}
 		</div>
 	);
@@ -99,20 +77,7 @@ function RoomTile({ room }: { room: Room }) {
 
 	return (
 		<Link href={`/dashboard/houses/${router.query.id}/rooms/${room.id}`}>
-			<Paper
-				css={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					'&:hover': {
-						cursor: 'pointer',
-						backgroundColor: alpha(
-							theme.palette.background.paper,
-							1 - theme.palette.action.hoverOpacity
-						),
-					},
-				}}
-			>
+			<Tile>
 				<div
 					css={{
 						display: 'flex',
@@ -135,7 +100,7 @@ function RoomTile({ room }: { room: Room }) {
 						))}
 					</AvatarGroup>
 				</div>
-			</Paper>
+			</Tile>
 		</Link>
 	);
 }

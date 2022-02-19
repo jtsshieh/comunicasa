@@ -21,6 +21,7 @@ import useSWR, { mutate } from 'swr';
 import { FormEvent, useCallback } from 'react';
 import Link from 'next/link';
 import { useDialogState } from '../../../lib/hooks/use-dialog-state';
+import { MasterTile, Tile, TileContainer } from '../../../components/tiles';
 
 export default function Dashboard() {
 	const theme = useTheme();
@@ -49,41 +50,14 @@ export default function Dashboard() {
 					<CircularProgress />
 				</div>
 			) : (
-				<div
-					css={{
-						display: 'grid',
-						gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-						gridAutoRows: '1fr',
-						gap: theme.spacing(2),
-						padding: theme.spacing(2),
-					}}
-				>
+				<TileContainer>
 					{houses.map((house) => (
 						<HouseTile key={house.id} house={house} />
 					))}
-					<Paper
-						css={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							'&::before': {
-								display: 'block',
-								content: '""',
-								paddingBottom: '100%',
-							},
-							'&:hover': {
-								cursor: 'pointer',
-								backgroundColor: alpha(
-									theme.palette.background.paper,
-									1 - theme.palette.action.hoverOpacity
-								),
-							},
-						}}
-						onClick={show}
-					>
+					<MasterTile onClick={show}>
 						<AddIcon />
-					</Paper>
-				</div>
+					</MasterTile>
+				</TileContainer>
 			)}
 		</div>
 	);
@@ -94,20 +68,7 @@ function HouseTile({ house }: { house: House }) {
 
 	return (
 		<Link href={`/dashboard/houses/${house.id}`}>
-			<Paper
-				css={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					'&:hover': {
-						cursor: 'pointer',
-						backgroundColor: alpha(
-							theme.palette.background.paper,
-							1 - theme.palette.action.hoverOpacity
-						),
-					},
-				}}
-			>
+			<Tile>
 				<div
 					css={{
 						display: 'flex',
@@ -133,7 +94,7 @@ function HouseTile({ house }: { house: House }) {
 						))}
 					</AvatarGroup>
 				</div>
-			</Paper>
+			</Tile>
 		</Link>
 	);
 }

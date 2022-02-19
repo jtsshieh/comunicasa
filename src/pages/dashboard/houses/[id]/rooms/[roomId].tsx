@@ -28,6 +28,7 @@ import { useHouse } from '../../../../../lib/hooks/use-house';
 import { useSnackbar } from 'notistack';
 import { useUser } from '../../../../../lib/hooks/use-user';
 import { Panel } from '../../../../../components/panel';
+import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -210,9 +211,7 @@ function ManageOwnersPanels() {
 						label={owner.name}
 						onDelete={
 							isElevated
-								? () => {
-										syncChanges(owners.filter((o) => o !== owner.id));
-								  }
+								? () => syncChanges(owners.filter((o) => o !== owner.id))
 								: undefined
 						}
 					/>
@@ -253,9 +252,7 @@ function ManageOwnersPanels() {
 				</FormControl>
 				<Button
 					variant="contained"
-					onClick={() => {
-						syncChanges(owners.concat([personSelected]));
-					}}
+					onClick={() => syncChanges(owners.concat([personSelected]))}
 				>
 					Agregar
 				</Button>
@@ -266,7 +263,7 @@ function ManageOwnersPanels() {
 
 function DeleteRoomPanel() {
 	const theme = useTheme();
-	const [showModal, setShowModal] = useState(false);
+	const { open, show, handleClose, id } = useDialogState();
 
 	return (
 		<Panel
@@ -274,19 +271,12 @@ function DeleteRoomPanel() {
 				border: 'solid 1px red',
 			}}
 		>
-			<DeleteRoomConfirmation
-				open={showModal}
-				handleClose={() => setShowModal(false)}
-			/>
+			<DeleteRoomConfirmation key={id} open={open} handleClose={handleClose} />
 			<Typography variant="h3">Eliminar el cuarto</Typography>
 			<Typography variant="body1">
 				Eliminar el cuarto es permanente. ¡No puede recuperar!
 			</Typography>
-			<Button
-				variant="contained"
-				color="error"
-				onClick={() => setShowModal(true)}
-			>
+			<Button variant="contained" color="error" onClick={show}>
 				Eliminar
 			</Button>
 		</Panel>

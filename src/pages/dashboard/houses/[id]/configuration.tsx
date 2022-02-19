@@ -57,7 +57,9 @@ export default function HouseConfiguration() {
 						gap: theme.spacing(4),
 					}}
 				>
-					<Typography variant="h2">Configuración</Typography>
+					<Typography align="center" variant="h2">
+						Configuración
+					</Typography>
 					<Panel
 						css={{
 							border: 'solid 1px red',

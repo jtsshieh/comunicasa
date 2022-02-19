@@ -98,7 +98,9 @@ export default function HousePeople() {
 						gap: theme.spacing(4),
 					}}
 				>
-					<Typography variant="h2">Las Gentes</Typography>
+					<Typography align="center" variant="h2">
+						Las Gentes
+					</Typography>
 					<Paper
 						css={{
 							display: 'grid',

@@ -73,7 +73,9 @@ export default function Rooms() {
 						gap: theme.spacing(4),
 					}}
 				>
-					<Typography variant="h2">{room.name}</Typography>
+					<Typography align="center" variant="h2">
+						{room.name}
+					</Typography>
 					<NameChangePanel />
 					<ManageOwnersPanels />
 					<DeleteRoomPanel />

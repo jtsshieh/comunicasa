@@ -2,6 +2,7 @@ import {
 	Avatar,
 	Button,
 	CircularProgress,
+	Container,
 	Paper,
 	Typography,
 	useTheme,
@@ -19,6 +20,7 @@ export default function Settings() {
 			css={{
 				backgroundColor: theme.palette.background.default,
 				minHeight: '100vh',
+				color: 'white',
 			}}
 		>
 			<Navbar />
@@ -35,17 +37,18 @@ export default function Settings() {
 					<CircularProgress />
 				</div>
 			) : (
-				<div
+				<Container
 					css={{
-						marginTop: theme.spacing(4),
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
-						justifyContent: 'center',
+						gap: theme.spacing(4),
 					}}
 				>
+					<Typography variant="h2">Gestionar tu cuenta</Typography>
+
 					<AvatarPanel />
-				</div>
+				</Container>
 			)}
 		</div>
 	);
@@ -92,6 +95,7 @@ function AvatarPanel() {
 				gap: theme.spacing(2),
 				padding: theme.spacing(4),
 				justifyContent: 'center',
+				width: '100%',
 			}}
 		>
 			<Typography variant="h3">Cambiar Avatar</Typography>
@@ -99,7 +103,7 @@ function AvatarPanel() {
 				<Avatar
 					alt="Avatar"
 					src={`/api/user/${user.id}/avatar`}
-					css={{ width: '64px', height: '64px' }}
+					css={{ width: '128px', height: '128px' }}
 				/>
 				<div
 					css={{
@@ -107,9 +111,10 @@ function AvatarPanel() {
 						alignItems: 'center',
 						justifyContent: 'center',
 						gap: theme.spacing(2),
+						flex: 1,
 					}}
 				>
-					<label htmlFor="avatar-file">
+					<label htmlFor="avatar-file" css={{ flex: 1 }}>
 						<input
 							id="avatar-file"
 							accept="image/png,image/jpeg"
@@ -117,11 +122,18 @@ function AvatarPanel() {
 							css={{ display: 'none' }}
 							onChange={handleOnChange}
 						/>
-						<Button variant="contained" component="span" color="info">
+						<Button
+							variant="contained"
+							component="span"
+							color="info"
+							css={{ width: '100%' }}
+						>
 							Subir
 						</Button>
 					</label>
-					<Button onClick={resetAvatar}>Reajustar</Button>
+					<Button onClick={resetAvatar} css={{ flex: 1 }}>
+						Reajustar
+					</Button>
 				</div>
 			</div>
 		</Paper>

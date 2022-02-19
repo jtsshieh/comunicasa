@@ -11,6 +11,8 @@ export async function genAvatarImage(name: string) {
 	const font = await jimp.loadFont(
 		path.join(process.cwd(), './fonts/open-sans-128-black.fnt')
 	);
+	// Tells @vercel/nft to include the font png file so it can execute on serverless functions
+	path.join(process.cwd(), './fonts/open-sans-128-black.png');
 
 	avatar.print(
 		font,

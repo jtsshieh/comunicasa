@@ -18,7 +18,7 @@ export default function Home() {
 			}}
 		>
 			<div>
-				<img css={{ height: '35vh' }} src="/house.svg" alt="House" />
+				<img css={{ height: '35vh' }} src="/logo.svg" alt="House" />
 			</div>
 			<div
 				css={{
@@ -31,7 +31,7 @@ export default function Home() {
 				}}
 			>
 				<Typography align="center" variant="h1">
-					Bienvenido a Comunicasa
+					¡Bienvenido a Comunicasa!
 				</Typography>
 				<Link href="/auth/signin" passHref>
 					<Button size="large" variant="contained">

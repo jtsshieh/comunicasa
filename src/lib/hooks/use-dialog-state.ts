@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useDialogState() {
+export function useDialogState(prefix = '') {
 	const openId = useRef(1);
 
 	const [open, setOpen] = useState(false);
@@ -11,10 +11,10 @@ export function useDialogState() {
 		}
 	}, [open]);
 
-	return {
+	return [
 		open,
-		show: () => setOpen(true),
-		handleClose: () => setOpen(false),
-		id: openId.current,
-	};
+		() => setOpen(true),
+		() => setOpen(false),
+		prefix + openId.current,
+	] as const;
 }

@@ -26,7 +26,7 @@ import { MasterTile, Tile, TileContainer } from '../../../components/tiles';
 export default function Dashboard() {
 	const theme = useTheme();
 	const { data: houses } = useSWR<House[]>('/api/house');
-	const { open, show, handleClose, id } = useDialogState();
+	const [open, show, handleClose, id] = useDialogState();
 
 	return (
 		<div

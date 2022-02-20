@@ -38,7 +38,7 @@ export default function HousePeople() {
 	const router = useRouter();
 	const house = useHouse();
 	const { user } = useUser();
-	const { open, show, handleClose, id } = useDialogState();
+	const [open, show, handleClose, id] = useDialogState();
 	const { data: people } = useSWR<{
 		owners: User[];
 		members: User[];

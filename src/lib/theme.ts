@@ -2,6 +2,11 @@ import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
 	components: {
+		MuiCheckbox: {
+			defaultProps: {
+				disableRipple: true,
+			},
+		},
 		MuiIconButton: {
 			defaultProps: {
 				disableTouchRipple: true,

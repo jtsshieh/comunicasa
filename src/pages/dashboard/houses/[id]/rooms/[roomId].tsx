@@ -29,6 +29,8 @@ import { useSnackbar } from 'notistack';
 import { useUser } from '../../../../../lib/hooks/use-user';
 import { Panel } from '../../../../../components/panel';
 import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
+import Link from 'next/link';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -75,9 +77,37 @@ export default function Rooms() {
 						paddingBottom: theme.spacing(4),
 					}}
 				>
-					<Typography align="center" variant="h2">
-						{room.name}
-					</Typography>
+					<div
+						css={{
+							width: '100%',
+							display: 'grid',
+							gridTemplateColumns: '1fr auto 1fr',
+						}}
+					>
+						<div
+							css={{
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							<Link href={`/dashboard/houses/${router.query.id}/rooms`}>
+								<Button
+									startIcon={<ChevronLeft />}
+									css={{
+										padding: theme.spacing(1),
+										fontWeight: 400,
+										fontSize: '1em',
+									}}
+								>
+									Regresar a cuartos
+								</Button>
+							</Link>
+						</div>
+						<Typography align="center" variant="h2">
+							{room.name}
+						</Typography>
+						<span />
+					</div>
 					<NameChangePanel />
 					<ManageOwnersPanels />
 					<DeleteRoomPanel />

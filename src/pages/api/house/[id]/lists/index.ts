@@ -22,20 +22,6 @@ export default withSessionRoute(async function handler(
 			return res.status(401).json(false);
 
 		res.json(house.lists);
-	} else if (req.method === 'DELETE') {
-		if (!req.session.user) return res.status(401).json(false);
-		const house = await prisma.house.findUnique({
-			where: { id: req.query.id as string },
-			include: { rooms: true },
-		});
-		if (!house) return res.status(400).json(false);
-		if (!house.ownerIds.includes(req.session.user))
-			return res.status(401).json(false);
-
-		await prisma.list.delete({
-			where: { id: req.query.listId as string },
-		});
-		res.json(true);
 	} else if (req.method === 'POST') {
 		if (!req.session.user) return res.status(401).json(false);
 		const house = await prisma.house.findUnique({

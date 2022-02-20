@@ -166,13 +166,23 @@ export default function List() {
 								open={settingsPopper}
 								onClose={() => setAnchorEl(null)}
 							>
-								<MenuItem onClick={showEditName}>
+								<MenuItem
+									onClick={() => {
+										showEditName();
+										setAnchorEl(null);
+									}}
+								>
 									<ListItemIcon>
 										<EditIcon />
 									</ListItemIcon>
 									Editar Nombre
 								</MenuItem>
-								<MenuItem onClick={showDeleteList}>
+								<MenuItem
+									onClick={() => {
+										showDeleteList();
+										setAnchorEl(null);
+									}}
+								>
 									<ListItemIcon>
 										<DeleteIcon />
 									</ListItemIcon>

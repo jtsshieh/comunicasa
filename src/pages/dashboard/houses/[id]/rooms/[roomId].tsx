@@ -197,7 +197,7 @@ function ManageOwnersPanels() {
 		guests: User[];
 	}>(router.query.id && `/api/house/${router.query.id}/people`);
 	const [owners, setOwners] = useState<string[]>([]);
-	const [personSelected, setPersonSelected] = useState('');
+	const [personSelected, setPersonSelected] = useState<string | null>('');
 	const { enqueueSnackbar } = useSnackbar();
 	useEffect(() => {
 		if (!room) return;
@@ -287,7 +287,11 @@ function ManageOwnersPanels() {
 				</FormControl>
 				<Button
 					variant="contained"
-					onClick={() => syncChanges(owners.concat([personSelected]))}
+					onClick={() => {
+						if (!personSelected) return;
+						syncChanges(owners.concat([personSelected]));
+						setPersonSelected(null);
+					}}
 				>
 					Agregar
 				</Button>

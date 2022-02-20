@@ -1,4 +1,10 @@
 import { alpha, Paper, styled } from '@mui/material';
+import {
+	ComponentPropsWithoutRef,
+	forwardRef,
+	HTMLProps,
+	PropsWithChildren,
+} from 'react';
 
 export const TileContainer = styled('div')(({ theme }) => ({
 	display: 'grid',
@@ -8,10 +14,8 @@ export const TileContainer = styled('div')(({ theme }) => ({
 	padding: theme.spacing(2),
 }));
 
-export const Tile = styled(Paper)(({ theme }) => ({
+const TileWrapper = styled(Paper)(({ theme }) => ({
 	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
 	'&:hover': {
 		cursor: 'pointer',
 		backgroundColor: alpha(
@@ -19,12 +23,26 @@ export const Tile = styled(Paper)(({ theme }) => ({
 			1 - theme.palette.action.hoverOpacity
 		),
 	},
-}));
-
-export const MasterTile = styled(Tile)({
 	'&::before': {
 		display: 'block',
 		content: '""',
 		paddingBottom: '100%',
 	},
+}));
+
+const TileInside = styled('div')({
+	flex: 1,
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
 });
+
+export const Tile = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
+	function GridItem(props, ref) {
+		return (
+			<TileWrapper>
+				<TileInside ref={ref} {...props} />
+			</TileWrapper>
+		);
+	}
+);

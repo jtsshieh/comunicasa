@@ -21,11 +21,7 @@ import useSWR, { mutate } from 'swr';
 import { FormEvent, useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {
-	MasterTile,
-	Tile,
-	TileContainer,
-} from '../../../../../components/tiles';
+import { Tile, TileContainer } from '../../../../../components/tiles';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -64,9 +60,9 @@ export default function Rooms() {
 					{rooms.map((room) => (
 						<RoomTile key={room.id} room={room} />
 					))}
-					<MasterTile onClick={() => setShowModal(true)}>
+					<Tile onClick={() => setShowModal(true)}>
 						<AddIcon />
-					</MasterTile>
+					</Tile>
 				</TileContainer>
 			)}
 		</div>

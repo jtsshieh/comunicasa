@@ -1,5 +1,4 @@
 import {
-	alpha,
 	Avatar,
 	AvatarGroup,
 	Button,
@@ -9,7 +8,6 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	Paper,
 	TextField,
 	Typography,
 	useTheme,
@@ -21,7 +19,7 @@ import useSWR, { mutate } from 'swr';
 import { FormEvent, useCallback } from 'react';
 import Link from 'next/link';
 import { useDialogState } from '../../../lib/hooks/use-dialog-state';
-import { MasterTile, Tile, TileContainer } from '../../../components/tiles';
+import { Tile, TileContainer } from '../../../components/tiles';
 
 export default function Dashboard() {
 	const theme = useTheme();
@@ -54,9 +52,9 @@ export default function Dashboard() {
 					{houses.map((house) => (
 						<HouseTile key={house.id} house={house} />
 					))}
-					<MasterTile onClick={show}>
+					<Tile onClick={show}>
 						<AddIcon />
-					</MasterTile>
+					</Tile>
 				</TileContainer>
 			)}
 		</div>

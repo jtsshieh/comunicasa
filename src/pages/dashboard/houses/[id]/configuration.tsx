@@ -13,15 +13,23 @@ import {
 } from '@mui/material';
 import { useHouse } from '../../../../lib/hooks/use-house';
 import { Navbar } from '../../../../components/houses/navbar';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Panel } from '../../../../components/panel';
+import { useUser } from '../../../../lib/hooks/use-user';
 
 export default function HouseConfiguration() {
 	const theme = useTheme();
 	const house = useHouse();
 	const [showModal, setShowModal] = useState(false);
+	const { user } = useUser();
+	const router = useRouter();
+	useEffect(() => {
+		if (!house || !user) return;
+		if (!house.ownerIds.includes(user.id))
+			router.push(`/dashboard/houses/${house.id}`);
+	}, [house, user, router]);
 
 	return (
 		<div

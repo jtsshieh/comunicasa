@@ -5,17 +5,20 @@ import {
 	darken,
 	Link as MuiLink,
 	Popover,
+	Stack,
 	useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
 import { useState } from 'react';
 import { ProfileDropdown } from './profile-dropdown';
+import { useRouter } from 'next/router';
 
 export function Navbar() {
 	const theme = useTheme();
 	const { user } = useUser();
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const router = useRouter();
 
 	if (!user) return <></>;
 	return (
@@ -38,11 +41,29 @@ export function Navbar() {
 					alt="House"
 				/>
 			</div>
-			<div>
-				<Link href="/dashboard/houses" passHref>
-					<MuiLink variant="body1">Casas</MuiLink>
+			<Stack direction="row" spacing={2}>
+				<Link href="/dashboard" passHref>
+					<MuiLink
+						variant="body1"
+						css={{
+							color: router.asPath === '/dashboard' ? 'white' : undefined,
+						}}
+					>
+						Inicio
+					</MuiLink>
 				</Link>
-			</div>
+				<Link href="/dashboard/houses" passHref>
+					<MuiLink
+						variant="body1"
+						css={{
+							color:
+								router.asPath === '/dashboard/houses' ? 'white' : undefined,
+						}}
+					>
+						Casas
+					</MuiLink>
+				</Link>
+			</Stack>
 			<div>
 				<Button
 					endIcon={<ExpandMoreIcon />}

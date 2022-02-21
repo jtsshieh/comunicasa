@@ -11,6 +11,11 @@ export const theme = createTheme({
 			defaultProps: {
 				disableTouchRipple: true,
 			},
+			styleOverrides: {
+				root: {
+					borderRadius: '12px',
+				},
+			},
 		},
 		MuiListItem: {
 			defaultProps: {

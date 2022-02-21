@@ -11,7 +11,7 @@ export const TileContainer = styled('div')(({ theme }) => ({
 	gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
 	gridAutoRows: '1fr',
 	gap: theme.spacing(2),
-	padding: theme.spacing(2),
+	width: '100%',
 }));
 
 const TileWrapper = styled(Paper)(({ theme }) => ({

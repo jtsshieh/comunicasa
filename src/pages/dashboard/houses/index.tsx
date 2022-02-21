@@ -3,6 +3,7 @@ import {
 	AvatarGroup,
 	Button,
 	CircularProgress,
+	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -31,6 +32,7 @@ export default function Dashboard() {
 			css={{
 				backgroundColor: theme.palette.background.default,
 				minHeight: '100vh',
+				color: 'white',
 			}}
 		>
 			<Navbar />
@@ -48,14 +50,27 @@ export default function Dashboard() {
 					<CircularProgress />
 				</div>
 			) : (
-				<TileContainer>
-					{houses.map((house) => (
-						<HouseTile key={house.id} house={house} />
-					))}
-					<Tile onClick={show}>
-						<AddIcon />
-					</Tile>
-				</TileContainer>
+				<Container
+					css={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: theme.spacing(4),
+						padding: theme.spacing(4),
+					}}
+				>
+					<Typography align="center" variant="h2">
+						Las casas
+					</Typography>
+					<TileContainer>
+						{houses.map((house) => (
+							<HouseTile key={house.id} house={house} />
+						))}
+						<Tile onClick={show}>
+							<AddIcon />
+						</Tile>
+					</TileContainer>
+				</Container>
 			)}
 		</div>
 	);

@@ -4,6 +4,7 @@ import {
 	AvatarGroup,
 	Button,
 	CircularProgress,
+	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -36,6 +37,7 @@ export default function Rooms() {
 			css={{
 				backgroundColor: theme.palette.background.default,
 				minHeight: '100vh',
+				color: 'white',
 			}}
 		>
 			<Navbar />
@@ -56,14 +58,27 @@ export default function Rooms() {
 					<CircularProgress />
 				</div>
 			) : (
-				<TileContainer>
-					{rooms.map((room) => (
-						<RoomTile key={room.id} room={room} />
-					))}
-					<Tile onClick={() => setShowModal(true)}>
-						<AddIcon />
-					</Tile>
-				</TileContainer>
+				<Container
+					css={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: theme.spacing(4),
+						padding: theme.spacing(4),
+					}}
+				>
+					<Typography align="center" variant="h2">
+						Los cuartos
+					</Typography>
+					<TileContainer>
+						{rooms.map((room) => (
+							<RoomTile key={room.id} room={room} />
+						))}
+						<Tile onClick={() => setShowModal(true)}>
+							<AddIcon />
+						</Tile>
+					</TileContainer>
+				</Container>
 			)}
 		</div>
 	);

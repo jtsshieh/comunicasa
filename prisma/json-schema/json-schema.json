@@ -22,6 +22,18 @@
             "$ref": "#/definitions/Chore"
           }
         },
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChatMessage"
+          }
+        },
+        "ownedChats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chat"
+          }
+        },
         "chores": {
           "type": "array",
           "items": {
@@ -50,6 +62,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Room"
+          }
+        },
+        "chats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chat"
           }
         },
         "avatar": {
@@ -121,6 +139,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Chore"
+          }
+        },
+        "chats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chat"
           }
         }
       }
@@ -215,6 +239,56 @@
           "$ref": "#/definitions/House"
         }
       }
+    },
+    "Chat": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "house": {
+          "$ref": "#/definitions/House"
+        },
+        "owner": {
+          "$ref": "#/definitions/User"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChatMessage"
+          }
+        }
+      }
+    },
+    "ChatMessage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author": {
+          "$ref": "#/definitions/User"
+        },
+        "chat": {
+          "$ref": "#/definitions/Chat"
+        }
+      }
     }
   },
   "type": "object",
@@ -239,6 +313,12 @@
     },
     "chore": {
       "$ref": "#/definitions/Chore"
+    },
+    "chat": {
+      "$ref": "#/definitions/Chat"
+    },
+    "chatMessage": {
+      "$ref": "#/definitions/ChatMessage"
     }
   }
 }

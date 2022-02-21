@@ -34,7 +34,7 @@ export default function House() {
 			icon: <RoomIcon />,
 		},
 		{
-			link: `/dashboard/houses/${house.id}/chat`,
+			link: `/dashboard/houses/${house.id}/chats`,
 			name: 'Los Mensajes',
 			icon: <MessageIcon />,
 		},

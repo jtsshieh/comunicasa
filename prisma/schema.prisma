@@ -21,22 +21,25 @@ model User {
   email    String @unique
   password String
 
-  createdChores Chore[] @relation("createdChores")
-
+  // One to Many
+  createdChores Chore[]       @relation("createdChores")
+  messages      ChatMessage[]
+  ownedChats    Chat[]        @relation("ownedChats")
 
   // Many to Many
   choreIds       String[] @db.Array(ObjectId)
   ownedHouseIds  String[] @db.Array(ObjectId)
   memberHouseIds String[] @db.Array(ObjectId)
   guestHouseIds  String[] @db.Array(ObjectId)
+  roomIds        String[] @db.Array(ObjectId)
+  chatIds        String[] @db.Array(ObjectId)
 
   chores       Chore[] @relation("chores", fields: [choreIds])
   ownedHouses  House[] @relation("owners", fields: [ownedHouseIds])
   memberHouses House[] @relation("members", fields: [memberHouseIds])
   guestHouses  House[] @relation("guests", fields: [guestHouseIds])
-
-  roomIds String[] @db.Array(ObjectId)
-  rooms   Room[]   @relation(fields: [roomIds])
+  rooms        Room[]  @relation(fields: [roomIds])
+  chats        Chat[]  @relation("memberChats", fields: [chatIds])
 
   avatar UserAvatar?
 }
@@ -55,16 +58,20 @@ model House {
   name String
 
 
+  // Many to Many
   ownerIds  String[] @db.Array(ObjectId)
   memberIds String[] @db.Array(ObjectId)
   guestIds  String[] @db.Array(ObjectId)
 
-  owners  User[]  @relation("owners", fields: [ownerIds])
-  members User[]  @relation("members", fields: [memberIds])
-  guests  User[]  @relation("guests", fields: [guestIds])
-  rooms   Room[]
-  lists   List[]
-  chores  Chore[]
+  owners  User[] @relation("owners", fields: [ownerIds])
+  members User[] @relation("members", fields: [memberIds])
+  guests  User[] @relation("guests", fields: [guestIds])
+
+  // One to Many
+  rooms  Room[]
+  lists  List[]
+  chores Chore[]
+  chats  Chat[]
 }
 
 model Room {
@@ -104,11 +111,44 @@ model Chore {
   completed   Boolean  @default(false)
   dueAt       DateTime
 
+  // Many to Many
   assignedToIds String[] @db.ObjectId
-  houseId       String   @db.ObjectId
-  createdById   String   @db.ObjectId
+  assignedTo    User[]   @relation("chores", fields: [assignedToIds])
 
-  assignedTo User[] @relation("chores", fields: [assignedToIds])
-  createdBy  User   @relation("createdChores", fields: [createdById], references: [id])
-  house      House  @relation(fields: [houseId], references: [id])
+  // One to Many
+  houseId     String @db.ObjectId
+  createdById String @db.ObjectId
+
+  createdBy User  @relation("createdChores", fields: [createdById], references: [id])
+  house     House @relation(fields: [houseId], references: [id])
+}
+
+model Chat {
+  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name String
+
+  // Many to many
+  memberIds String[] @db.Array(ObjectId)
+  members   User[]   @relation("memberChats", fields: [memberIds])
+
+  // One to Many
+  houseId String @db.ObjectId
+  ownerId String @db.ObjectId
+
+  house House @relation(fields: [houseId], references: [id])
+  owner User  @relation("ownedChats", fields: [ownerId], references: [id])
+
+  messages ChatMessage[]
+}
+
+model ChatMessage {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  content   String
+  createdAt DateTime @default(now())
+
+  authorId String @db.ObjectId
+  chatid   String @db.ObjectId
+
+  author User @relation(fields: [authorId], references: [id])
+  chat   Chat @relation(fields: [chatid], references: [id])
 }

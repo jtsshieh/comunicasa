@@ -130,7 +130,7 @@ function Items({ mobile = false }) {
 			icon: <RoomIcon />,
 		},
 		{
-			link: `/dashboard/houses/${house.id}/chat`,
+			link: `/dashboard/houses/${house.id}/chats`,
 			name: 'Mensajes',
 			icon: <MessageIcon />,
 		},

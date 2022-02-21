@@ -46,7 +46,9 @@ export default function Settings() {
 						gap: theme.spacing(4),
 					}}
 				>
-					<Typography variant="h2">Gestionar tu cuenta</Typography>
+					<Typography variant="h2" align="center">
+						Gestionar tu cuenta
+					</Typography>
 
 					<AvatarPanel />
 				</Container>

@@ -11,6 +11,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Divider,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -50,7 +51,9 @@ export default function Chores() {
 		if (!house.ownerIds.includes(user.id) && !house.memberIds.includes(user.id))
 			router.push(`/dashboard/houses/${house.id}`);
 	}, [house, user, router]);
-
+	const isMobile = useMediaQuery<Theme>((theme) =>
+		theme.breakpoints.down('md')
+	);
 	return (
 		<div
 			css={{
@@ -89,13 +92,14 @@ export default function Chores() {
 						css={{
 							display: 'grid',
 							gap: theme.spacing(4),
-							gridTemplateColumns: 'repeat(2, 1fr)',
+							gridTemplateColumns: '1fr auto 1fr',
 							[theme.breakpoints.down('md')]: {
 								gridTemplateColumns: 'auto',
 							},
 						}}
 					>
 						<ForYou />
+						<Divider orientation={isMobile ? 'horizontal' : 'vertical'} />
 						{house.ownerIds.includes(user.id) ? (
 							<AllChores />
 						) : (

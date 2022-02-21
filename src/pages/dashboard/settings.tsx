@@ -104,6 +104,10 @@ function AvatarPanel() {
 						justifyContent: 'center',
 						gap: theme.spacing(2),
 						flex: 1,
+						[theme.breakpoints.down('md')]: {
+							flexDirection: 'column',
+							alignItems: 'stretch',
+						},
 					}}
 				>
 					<label htmlFor="avatar-file" css={{ flex: 1 }}>

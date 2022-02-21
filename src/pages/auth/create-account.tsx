@@ -32,8 +32,6 @@ export default function SignIn() {
 					'content-type': 'application/json',
 				},
 			});
-			const user = await res.json();
-
 			const loginPayload = {
 				email: target.email.value,
 				password: target.password.value,

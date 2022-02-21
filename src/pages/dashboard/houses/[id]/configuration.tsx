@@ -22,7 +22,6 @@ import {
 } from '../../../../components/page-layout';
 
 export default function HouseConfiguration() {
-	const theme = useTheme();
 	const house = useHouse();
 	const [showModal, setShowModal] = useState(false);
 	const { user } = useUser();

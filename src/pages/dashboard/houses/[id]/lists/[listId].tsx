@@ -109,7 +109,10 @@ export default function List() {
 								},
 							}}
 						>
-							<Link href={`/dashboard/houses/${router.query.id}/lists`}>
+							<Link
+								href={`/dashboard/houses/${router.query.id}/lists`}
+								passHref
+							>
 								<Button
 									startIcon={<ChevronLeft />}
 									css={{

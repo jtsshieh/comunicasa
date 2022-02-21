@@ -292,7 +292,6 @@ function ManageOwnersPanels() {
 }
 
 function DeleteRoomPanel() {
-	const theme = useTheme();
 	const [open, show, handleClose, id] = useDialogState();
 
 	return (

@@ -76,6 +76,6 @@ export default withSessionRoute(async function handler(
 				assignedToIds: req.body.assignedToIds,
 			},
 		});
-		res.json(chore);
+		res.json(updated);
 	}
 });

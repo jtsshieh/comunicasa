@@ -13,7 +13,6 @@ import { Panel } from '../../components/panel';
 import { PageBackground, PageContainer } from '../../components/page-layout';
 
 export default function Settings() {
-	const theme = useTheme();
 	const { user } = useUser();
 	return (
 		<PageBackground>

@@ -296,8 +296,6 @@ function DeleteRoomPanel() {
 	const router = useRouter();
 	const [open, show, handleClose, id] = useDialogState();
 	const handleDelete = useCallback(async () => {
-		if (!house) return;
-
 		const res = await fetch(
 			`/api/house/${router.query.id}/rooms/${router.query.roomId}`,
 			{

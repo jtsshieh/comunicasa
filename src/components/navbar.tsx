@@ -6,6 +6,7 @@ import {
 	Popover,
 	Avatar,
 	darken,
+	Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
@@ -29,6 +30,15 @@ export function Navbar() {
 				backgroundColor: darken(theme.palette.background.default, 0.5),
 			}}
 		>
+			<div
+				css={{ display: 'flex', gap: theme.spacing(1), alignItems: 'center' }}
+			>
+				<img
+					css={{ height: '56px', width: 'auto' }}
+					src="/logo_text.svg"
+					alt="House"
+				/>
+			</div>
 			<div>
 				<Link href="/dashboard/houses" passHref>
 					<MuiLink variant="body1">Casas</MuiLink>

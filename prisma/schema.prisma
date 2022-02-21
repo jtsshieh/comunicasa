@@ -50,7 +50,7 @@ model UserAvatar {
   avatar Bytes
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model House {
@@ -79,7 +79,7 @@ model Room {
   name String
 
   houseId String @db.ObjectId
-  house   House  @relation(fields: [houseId], references: [id])
+  house   House  @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   ownerIds String[] @db.Array(ObjectId)
   owners   User[]   @relation(fields: [ownerIds])
@@ -90,7 +90,7 @@ model List {
   name String
 
   houseId String @db.ObjectId
-  house   House  @relation(fields: [houseId], references: [id])
+  house   House  @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   items ListItem[]
 }
@@ -101,7 +101,7 @@ model ListItem {
   checked Boolean
 
   listId String @db.ObjectId
-  list   List   @relation(fields: [listId], references: [id])
+  list   List   @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Chore {
@@ -120,7 +120,7 @@ model Chore {
   createdById String @db.ObjectId
 
   createdBy User  @relation("createdChores", fields: [createdById], references: [id])
-  house     House @relation(fields: [houseId], references: [id])
+  house     House @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Chat {
@@ -135,7 +135,7 @@ model Chat {
   houseId String @db.ObjectId
   ownerId String @db.ObjectId
 
-  house House @relation(fields: [houseId], references: [id])
+  house House @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   owner User  @relation("ownedChats", fields: [ownerId], references: [id])
 
   messages ChatMessage[]
@@ -149,6 +149,6 @@ model ChatMessage {
   authorId String @db.ObjectId
   chatid   String @db.ObjectId
 
-  author User @relation(fields: [authorId], references: [id])
-  chat   Chat @relation(fields: [chatid], references: [id])
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  chat   Chat @relation(fields: [chatid], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

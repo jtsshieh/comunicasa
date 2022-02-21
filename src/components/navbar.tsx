@@ -1,12 +1,11 @@
 import { useUser } from '../lib/hooks/use-user';
 import {
-	useTheme,
-	Link as MuiLink,
-	Button,
-	Popover,
 	Avatar,
+	Button,
 	darken,
-	Typography,
+	Link as MuiLink,
+	Popover,
+	useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';

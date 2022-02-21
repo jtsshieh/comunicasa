@@ -1,10 +1,5 @@
 import { alpha, Paper, styled } from '@mui/material';
-import {
-	ComponentPropsWithoutRef,
-	forwardRef,
-	HTMLProps,
-	PropsWithChildren,
-} from 'react';
+import { ComponentPropsWithoutRef, forwardRef } from 'react';
 
 export const TileContainer = styled('div')(({ theme }) => ({
 	display: 'grid',

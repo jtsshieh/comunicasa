@@ -5,7 +5,6 @@ import {
 	Button,
 	Chip,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -36,7 +35,6 @@ import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 import { DateTimePicker } from '@mui/lab';
 import { grey, red } from '@mui/material/colors';
 import Link from 'next/link';
-import { Panel } from '../../../../../components/panel';
 import {
 	PageBackground,
 	PageContainer,

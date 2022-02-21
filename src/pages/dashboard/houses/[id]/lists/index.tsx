@@ -2,13 +2,11 @@ import {
 	alpha,
 	Button,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	List,
 	ListItemButton,
 	ListItemText,
 	Paper,
@@ -19,7 +17,7 @@ import {
 import { useRouter } from 'next/router';
 import useSWR, { mutate } from 'swr';
 import { List as ListModel } from '@prisma/client';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback } from 'react';
 import { Navbar } from '../../../../../components/houses/navbar';
 import AddIcon from '@mui/icons-material/Add';
 import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';

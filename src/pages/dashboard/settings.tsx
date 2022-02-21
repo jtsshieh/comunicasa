@@ -2,8 +2,6 @@ import {
 	Avatar,
 	Button,
 	CircularProgress,
-	Container,
-	Paper,
 	Typography,
 	useTheme,
 } from '@mui/material';

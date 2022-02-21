@@ -3,7 +3,6 @@ import {
 	Button,
 	Chip,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -20,7 +19,7 @@ import {
 } from '@mui/material';
 import { Navbar } from '../../../../../components/houses/navbar';
 import useSWR, { mutate } from 'swr';
-import { Chore, Room, User } from '@prisma/client';
+import { Chore, User } from '@prisma/client';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
@@ -31,7 +30,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Panel } from '../../../../../components/panel';
 import { useSnackbar } from 'notistack';
 import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
-import { useHouse } from '../../../../../lib/hooks/use-house';
 import {
 	PageBackground,
 	PageContainer,
@@ -502,6 +500,7 @@ function DeleteChorePanel() {
 		</Panel>
 	);
 }
+
 function DeleteChoreConfirmation({
 	open,
 	handleClose,

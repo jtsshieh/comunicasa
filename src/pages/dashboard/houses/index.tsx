@@ -3,7 +3,6 @@ import {
 	AvatarGroup,
 	Button,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -24,7 +23,6 @@ import { Tile, TileContainer } from '../../../components/tiles';
 import { PageBackground, PageContainer } from '../../../components/page-layout';
 
 export default function Dashboard() {
-	const theme = useTheme();
 	const { data: houses } = useSWR<House[]>('/api/house');
 	const [open, show, handleClose, id] = useDialogState();
 

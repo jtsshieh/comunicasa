@@ -1,14 +1,15 @@
 import { useUser } from '../../lib/hooks/use-user';
 import {
-	useTheme,
-	Link as MuiLink,
-	Button,
-	Popover,
 	Avatar,
-	darken,
-	useMediaQuery,
-	IconButton,
+	Button,
 	Collapse,
+	darken,
+	IconButton,
+	Link as MuiLink,
+	Popover,
+	Theme,
+	useMediaQuery,
+	useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
@@ -17,7 +18,6 @@ import { useRouter } from 'next/router';
 import { useHouse } from '../../lib/hooks/use-house';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import { ProfileDropdown } from '../profile-dropdown';
-import { Theme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';

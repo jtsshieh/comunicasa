@@ -1,13 +1,11 @@
 import {
 	Button,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	Paper,
 	Typography,
 	useTheme,
 } from '@mui/material';

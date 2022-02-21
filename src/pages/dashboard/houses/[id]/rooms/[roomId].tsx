@@ -3,7 +3,6 @@ import {
 	Button,
 	Chip,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -12,7 +11,6 @@ import {
 	FormControl,
 	InputLabel,
 	MenuItem,
-	Paper,
 	Select,
 	Stack,
 	TextField,
@@ -31,7 +29,6 @@ import { Panel } from '../../../../../components/panel';
 import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 import Link from 'next/link';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import { breakpoints } from '@mui/system';
 import {
 	PageBackground,
 	PageContainer,
@@ -315,6 +312,7 @@ function DeleteRoomPanel() {
 		</Panel>
 	);
 }
+
 function DeleteRoomConfirmation({
 	open,
 	handleClose,

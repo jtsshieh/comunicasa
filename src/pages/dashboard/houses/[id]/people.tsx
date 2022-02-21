@@ -2,7 +2,6 @@ import {
 	Avatar,
 	Button,
 	CircularProgress,
-	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -22,11 +21,10 @@ import {
 import { useHouse } from '../../../../lib/hooks/use-house';
 import { Navbar } from '../../../../components/houses/navbar';
 import { User } from '@prisma/client';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, Fragment, useCallback, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
 import { useDialogState } from '../../../../lib/hooks/use-dialog-state';
 import { useUser } from '../../../../lib/hooks/use-user';
 import MoreVertIcon from '@mui/icons-material/MoreVert';

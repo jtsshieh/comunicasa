@@ -33,6 +33,7 @@ import {
 	PageBackground,
 	PageContainer,
 } from '../../../../../components/page-layout';
+import { DeleteConfirmation } from '../../../../../components/delete-confirmation';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -292,7 +293,22 @@ function ManageOwnersPanels() {
 }
 
 function DeleteRoomPanel() {
+	const router = useRouter();
 	const [open, show, handleClose, id] = useDialogState();
+	const handleDelete = useCallback(async () => {
+		if (!house) return;
+
+		const res = await fetch(
+			`/api/house/${router.query.id}/rooms/${router.query.roomId}`,
+			{
+				method: 'DELETE',
+			}
+		);
+		if (res.ok) {
+			await mutate(`/api/house/${router.query.id}/rooms`);
+			await router.push(`/dashboard/houses/${router.query.id}/rooms`);
+		}
+	}, [router]);
 
 	return (
 		<Panel
@@ -300,7 +316,13 @@ function DeleteRoomPanel() {
 				border: 'solid 1px red',
 			}}
 		>
-			<DeleteRoomConfirmation key={id} open={open} handleClose={handleClose} />
+			<DeleteConfirmation
+				key={id}
+				open={open}
+				item="el cuarto"
+				handleClose={handleClose}
+				handleDelete={handleDelete}
+			/>
 			<Typography variant="h3">Eliminar el cuarto</Typography>
 			<Typography variant="body1">
 				Eliminar el cuarto es permanente. ¡No puede recuperar!
@@ -309,48 +331,5 @@ function DeleteRoomPanel() {
 				Eliminar
 			</Button>
 		</Panel>
-	);
-}
-
-function DeleteRoomConfirmation({
-	open,
-	handleClose,
-}: {
-	open: boolean;
-	handleClose: () => void;
-}) {
-	const house = useHouse();
-	const router = useRouter();
-
-	const handleDelete = useCallback(async () => {
-		if (!house) return;
-
-		const res = await fetch(
-			`/api/house/${house.id}/rooms/${router.query.roomId}`,
-			{
-				method: 'DELETE',
-			}
-		);
-		if (res.ok) {
-			await mutate(`/api/house/${house.id}/rooms`);
-			await router.push(`/dashboard/houses/${house.id}/rooms`);
-		}
-	}, [house, router]);
-
-	return (
-		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>¿Eliminar el cuarto?</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					¿Está seguro de que quiere eliminar este cuarto? ¡No puede recuperar!
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose}>Cancelar</Button>
-				<Button onClick={handleDelete} variant="contained" color="error">
-					Eliminar
-				</Button>
-			</DialogActions>
-		</Dialog>
 	);
 }

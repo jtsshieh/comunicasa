@@ -20,10 +20,12 @@ import {
 	PageBackground,
 	PageContainer,
 } from '../../../../components/page-layout';
+import { DeleteConfirmation } from '../../../../components/delete-confirmation';
+import { useDialogState } from '../../../../lib/hooks/use-dialog-state';
 
 export default function HouseConfiguration() {
 	const house = useHouse();
-	const [showModal, setShowModal] = useState(false);
+	const [open, show, handleClose, key] = useDialogState();
 	const { user } = useUser();
 	const router = useRouter();
 	useEffect(() => {
@@ -31,13 +33,27 @@ export default function HouseConfiguration() {
 		if (!house.ownerIds.includes(user.id))
 			router.push(`/dashboard/houses/${house.id}`);
 	}, [house, user, router]);
+	const handleDelete = useCallback(async () => {
+		if (!house) return;
+
+		const res = await fetch(`/api/house/${router.query.id}`, {
+			method: 'DELETE',
+		});
+		if (res.ok) {
+			await mutate('/api/house');
+			await router.push('/dashboard/houses');
+		}
+	}, [router]);
 
 	return (
 		<PageBackground>
 			<Navbar />
-			<DeleteHouseConfirmation
-				open={showModal}
-				handleClose={() => setShowModal(false)}
+			<DeleteConfirmation
+				key={key}
+				open={open}
+				item="la casa"
+				handleClose={handleClose}
+				handleDelete={handleDelete}
 			/>
 			{!house ? (
 				<div
@@ -65,56 +81,12 @@ export default function HouseConfiguration() {
 						<Typography variant="body1">
 							Eliminar la casa es permanente. ¡No puede recuperar!
 						</Typography>
-						<Button
-							variant="contained"
-							color="error"
-							onClick={() => setShowModal(true)}
-						>
+						<Button variant="contained" color="error" onClick={show}>
 							Eliminar
 						</Button>
 					</Panel>
 				</PageContainer>
 			)}
 		</PageBackground>
-	);
-}
-
-function DeleteHouseConfirmation({
-	open,
-	handleClose,
-}: {
-	open: boolean;
-	handleClose: () => void;
-}) {
-	const house = useHouse();
-	const router = useRouter();
-
-	const handleDelete = useCallback(async () => {
-		if (!house) return;
-
-		const res = await fetch(`/api/house/${house.id}`, {
-			method: 'DELETE',
-		});
-		if (res.ok) {
-			await mutate('/api/house');
-			await router.push('/dashboard/houses');
-		}
-	}, [house, router]);
-
-	return (
-		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>¿Eliminar la casa?</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					¿Está seguro de que quiere eliminar esta casa? ¡No puede recuperar!
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose}>Cancelar</Button>
-				<Button onClick={handleDelete} variant="contained" color="error">
-					Eliminar
-				</Button>
-			</DialogActions>
-		</Dialog>
 	);
 }

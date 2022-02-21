@@ -34,6 +34,7 @@ import {
 	PageBackground,
 	PageContainer,
 } from '../../../../../components/page-layout';
+import { DeleteConfirmation } from '../../../../../components/delete-confirmation';
 
 export default function ChoreItem() {
 	const theme = useTheme();
@@ -468,32 +469,6 @@ function AssignPeoplePanel() {
 
 function DeleteChorePanel() {
 	const [open, show, handleClose, id] = useDialogState();
-
-	return (
-		<Panel
-			css={{
-				border: 'solid 1px red',
-			}}
-		>
-			<DeleteChoreConfirmation key={id} open={open} handleClose={handleClose} />
-			<Typography variant="h3">Eliminar el quehacer</Typography>
-			<Typography variant="body1">
-				Eliminar el quehacer es permanente. ¡No puede recuperar!
-			</Typography>
-			<Button variant="contained" color="error" onClick={show}>
-				Eliminar
-			</Button>
-		</Panel>
-	);
-}
-
-function DeleteChoreConfirmation({
-	open,
-	handleClose,
-}: {
-	open: boolean;
-	handleClose: () => void;
-}) {
 	const router = useRouter();
 
 	const handleDelete = useCallback(async () => {
@@ -510,20 +485,25 @@ function DeleteChoreConfirmation({
 	}, [router]);
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>¿Eliminar el quehacer?</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					¿Está seguro de que quiere eliminar este quehacer? ¡No puede
-					recuperar!
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose}>Cancelar</Button>
-				<Button onClick={handleDelete} variant="contained" color="error">
-					Eliminar
-				</Button>
-			</DialogActions>
-		</Dialog>
+		<Panel
+			css={{
+				border: 'solid 1px red',
+			}}
+		>
+			<DeleteConfirmation
+				key={id}
+				open={open}
+				item="el quehacer"
+				handleClose={handleClose}
+				handleDelete={handleDelete}
+			/>
+			<Typography variant="h3">Eliminar el quehacer</Typography>
+			<Typography variant="body1">
+				Eliminar el quehacer es permanente. ¡No puede recuperar!
+			</Typography>
+			<Button variant="contained" color="error" onClick={show}>
+				Eliminar
+			</Button>
+		</Panel>
 	);
 }

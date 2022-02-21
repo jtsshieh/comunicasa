@@ -34,6 +34,7 @@ import {
 	PageBackground,
 	PageContainer,
 } from '../../../../components/page-layout';
+import { DeleteConfirmation } from '../../../../components/delete-confirmation';
 
 export default function HousePeople() {
 	const theme = useTheme();
@@ -223,6 +224,7 @@ function RemovePerson({
 	disabled: boolean;
 }) {
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+	const [dialogOpen, show, handleClose, key] = useDialogState();
 	const router = useRouter();
 
 	const open = Boolean(anchorEl);
@@ -246,6 +248,12 @@ function RemovePerson({
 				justifyContent: 'center',
 			}}
 		>
+			<DeleteConfirmation
+				open={dialogOpen}
+				item="la gente"
+				handleClose={handleClose}
+				handleDelete={handleDelete}
+			/>
 			<IconButton
 				onClick={(e) => setAnchorEl(e.currentTarget)}
 				disabled={disabled}
@@ -265,7 +273,7 @@ function RemovePerson({
 				open={open}
 				onClose={() => setAnchorEl(null)}
 			>
-				<MenuItem onClick={handleDelete}>
+				<MenuItem onClick={show}>
 					<ListItemIcon>
 						<DeleteIcon />
 					</ListItemIcon>

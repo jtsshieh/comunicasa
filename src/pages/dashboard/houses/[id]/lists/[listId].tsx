@@ -34,6 +34,7 @@ import {
 	PageBackground,
 	PageContainer,
 } from '../../../../../components/page-layout';
+import { DeleteConfirmation } from '../../../../../components/delete-confirmation';
 
 export default function List() {
 	const theme = useTheme();
@@ -48,11 +49,25 @@ export default function List() {
 	const [addItemOpen, showAddItem, handleAddItemClose, addItemId] =
 		useDialogState('add');
 	const [editNameOpen, showEditName, handleEditNameClose, editNameId] =
-		useDialogState('add');
+		useDialogState('edit');
 	const house = useHouse();
 	const { user } = useUser();
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const settingsPopper = Boolean(anchorEl);
+	const handleDeleteList = useCallback(async () => {
+		if (!house) return;
+
+		const res = await fetch(
+			`/api/house/${router.query.id}/lists/${router.query.listId}`,
+			{
+				method: 'DELETE',
+			}
+		);
+		if (res.ok) {
+			await mutate(`/api/house/${router.query.id}/lists`);
+			await router.push(`/dashboard/houses/${router.query.id}/lists`);
+		}
+	}, [house, router]);
 
 	return (
 		<PageBackground>
@@ -63,10 +78,12 @@ export default function List() {
 				handleClose={handleAddItemClose}
 			/>
 
-			<DeleteListConfirmation
+			<DeleteConfirmation
 				key={deleteListId}
 				open={deleteListOpen}
+				item="la lista"
 				handleClose={handleDeleteListClose}
+				handleDelete={handleDeleteList}
 			/>
 			{!list || !house || !user ? (
 				<div
@@ -288,6 +305,20 @@ function ListItem({
 			);
 		}
 	}, [title, item, router]);
+	const handleDelete = useCallback(async () => {
+		const res = await fetch(
+			`/api/house/${router.query.id}/lists/items/${item.id}`,
+			{
+				method: 'DELETE',
+			}
+		);
+		if (res.ok) {
+			await mutate(
+				`/api/house/${router.query.id}/lists/${router.query.listId}`
+			);
+			handleClose();
+		}
+	}, [router, item.id, handleClose]);
 
 	return (
 		<div
@@ -297,11 +328,12 @@ function ListItem({
 				gap: theme.spacing(2),
 			}}
 		>
-			<DeleteListItemConfirmation
+			<DeleteConfirmation
 				key={id}
 				open={open}
+				item="el elemento de lista"
 				handleClose={handleClose}
-				itemId={item.id}
+				handleDelete={handleDelete}
 			/>
 			<Checkbox
 				checked={item.checked}
@@ -321,94 +353,6 @@ function ListItem({
 				</IconButton>
 			)}
 		</div>
-	);
-}
-
-function DeleteListItemConfirmation({
-	open,
-	handleClose,
-	itemId,
-}: {
-	open: boolean;
-	handleClose: () => void;
-	itemId: string;
-}) {
-	const router = useRouter();
-
-	const handleDelete = useCallback(async () => {
-		const res = await fetch(
-			`/api/house/${router.query.id}/lists/items/${itemId}`,
-			{
-				method: 'DELETE',
-			}
-		);
-		if (res.ok) {
-			await mutate(
-				`/api/house/${router.query.id}/lists/${router.query.listId}`
-			);
-			handleClose();
-		}
-	}, [router, itemId, handleClose]);
-
-	return (
-		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>¿Eliminar el elemento de lista?</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					¿Está seguro de que quiere eliminar este elemento? ¡No puede
-					recuperar!
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose}>Cancelar</Button>
-				<Button onClick={handleDelete} variant="contained" color="error">
-					Eliminar
-				</Button>
-			</DialogActions>
-		</Dialog>
-	);
-}
-
-function DeleteListConfirmation({
-	open,
-	handleClose,
-}: {
-	open: boolean;
-	handleClose: () => void;
-}) {
-	const house = useHouse();
-	const router = useRouter();
-
-	const handleDelete = useCallback(async () => {
-		if (!house) return;
-
-		const res = await fetch(
-			`/api/house/${house.id}/lists/${router.query.listId}`,
-			{
-				method: 'DELETE',
-			}
-		);
-		if (res.ok) {
-			await mutate(`/api/house/${house.id}/lists`);
-			await router.push(`/dashboard/houses/${house.id}/lists`);
-		}
-	}, [house, router]);
-
-	return (
-		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>¿Eliminar la lista?</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					¿Está seguro de que quiere eliminar esta lista? ¡No puede recuperar!
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose}>Cancelar</Button>
-				<Button onClick={handleDelete} variant="contained" color="error">
-					Eliminar
-				</Button>
-			</DialogActions>
-		</Dialog>
 	);
 }
 

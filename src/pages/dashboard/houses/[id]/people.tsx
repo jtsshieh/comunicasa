@@ -32,6 +32,10 @@ import { useUser } from '../../../../lib/hooks/use-user';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { grey } from '@mui/material/colors';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../components/page-layout';
 
 export default function HousePeople() {
 	const theme = useTheme();
@@ -68,13 +72,7 @@ export default function HousePeople() {
 	);
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			<AddPersonModal key={id} open={open} handleClose={handleClose} />
 			{!house || !people || !user ? (
@@ -90,16 +88,7 @@ export default function HousePeople() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						paddingTop: theme.spacing(4),
-						paddingBottom: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography align="center" variant="h2">
 						Las Gentes
 					</Typography>
@@ -134,9 +123,9 @@ export default function HousePeople() {
 							</Button>
 						)}
 					</Paper>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

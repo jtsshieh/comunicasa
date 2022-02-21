@@ -21,6 +21,7 @@ import { FormEvent, useCallback } from 'react';
 import Link from 'next/link';
 import { useDialogState } from '../../../lib/hooks/use-dialog-state';
 import { Tile, TileContainer } from '../../../components/tiles';
+import { PageBackground, PageContainer } from '../../../components/page-layout';
 
 export default function Dashboard() {
 	const theme = useTheme();
@@ -28,13 +29,7 @@ export default function Dashboard() {
 	const [open, show, handleClose, id] = useDialogState();
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			<CreateHouseModal key={id} open={open} handleClose={handleClose} />
 			{!houses ? (
@@ -50,15 +45,7 @@ export default function Dashboard() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						padding: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography align="center" variant="h2">
 						Las casas
 					</Typography>
@@ -70,9 +57,9 @@ export default function Dashboard() {
 							<AddIcon />
 						</Tile>
 					</TileContainer>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

@@ -32,6 +32,10 @@ import { Panel } from '../../../../../components/panel';
 import { useSnackbar } from 'notistack';
 import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 import { useHouse } from '../../../../../lib/hooks/use-house';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../../components/page-layout';
 
 export default function ChoreItem() {
 	const theme = useTheme();
@@ -55,13 +59,7 @@ export default function ChoreItem() {
 	}, [router, error]);
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			{!chore || !people || !user ? (
 				<div
@@ -76,15 +74,7 @@ export default function ChoreItem() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						padding: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<div
 						css={{
 							width: '100%',
@@ -126,9 +116,9 @@ export default function ChoreItem() {
 						people.owners.some((o) => o.id === user.id)) && (
 						<DeleteChorePanel />
 					)}
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

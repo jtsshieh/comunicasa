@@ -18,6 +18,10 @@ import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Panel } from '../../../../components/panel';
 import { useUser } from '../../../../lib/hooks/use-user';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../components/page-layout';
 
 export default function HouseConfiguration() {
 	const theme = useTheme();
@@ -32,13 +36,7 @@ export default function HouseConfiguration() {
 	}, [house, user, router]);
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			<DeleteHouseConfirmation
 				open={showModal}
@@ -57,16 +55,7 @@ export default function HouseConfiguration() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						paddingTop: theme.spacing(4),
-						paddingBottom: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography align="center" variant="h2">
 						Configuración
 					</Typography>
@@ -87,9 +76,9 @@ export default function HouseConfiguration() {
 							Eliminar
 						</Button>
 					</Panel>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

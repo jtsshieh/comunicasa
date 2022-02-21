@@ -32,6 +32,10 @@ import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 import Link from 'next/link';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import { breakpoints } from '@mui/system';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../../components/page-layout';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -45,13 +49,7 @@ export default function Rooms() {
 	);
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 
 			{!room || !house || !user ? (
@@ -68,16 +66,7 @@ export default function Rooms() {
 				</div>
 			) : room.ownerIds.includes(user.id) ||
 			  house.ownerIds.includes(user.id) ? (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						paddingTop: theme.spacing(4),
-						paddingBottom: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<div
 						css={{
 							width: '100%',
@@ -116,11 +105,11 @@ export default function Rooms() {
 					<NameChangePanel />
 					<ManageOwnersPanels />
 					<DeleteRoomPanel />
-				</Container>
+				</PageContainer>
 			) : (
 				<></>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

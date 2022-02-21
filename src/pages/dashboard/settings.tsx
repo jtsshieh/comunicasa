@@ -12,18 +12,13 @@ import { useUser } from '../../lib/hooks/use-user';
 import { ChangeEvent, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { Panel } from '../../components/panel';
+import { PageBackground, PageContainer } from '../../components/page-layout';
 
 export default function Settings() {
 	const theme = useTheme();
 	const { user } = useUser();
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			{!user ? (
 				<div
@@ -38,22 +33,15 @@ export default function Settings() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography variant="h2" align="center">
 						Gestionar tu cuenta
 					</Typography>
 
 					<AvatarPanel />
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

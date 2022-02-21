@@ -16,6 +16,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useUser } from '../../../../lib/hooks/use-user';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../components/page-layout';
 
 export default function House() {
 	const theme = useTheme();
@@ -65,13 +69,7 @@ export default function House() {
 		});
 	}
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 
 			{!house ? (
@@ -87,16 +85,7 @@ export default function House() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						paddingTop: theme.spacing(4),
-						paddingBottom: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography variant="h2" align="center">
 						Bienvenido a tu casa
 					</Typography>
@@ -128,8 +117,8 @@ export default function House() {
 							</Link>
 						))}
 					</Stack>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }

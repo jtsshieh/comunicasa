@@ -26,6 +26,10 @@ import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 import Link from 'next/link';
 import { useHouse } from '../../../../../lib/hooks/use-house';
 import { useUser } from '../../../../../lib/hooks/use-user';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../../components/page-layout';
 
 export default function Lists() {
 	const theme = useTheme();
@@ -38,13 +42,7 @@ export default function Lists() {
 	const { user } = useUser();
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			<CreateListModal key={id} open={open} handleClose={handleClose} />
 			{!lists || !house || !user ? (
@@ -60,15 +58,7 @@ export default function Lists() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						padding: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography align="center" variant="h2">
 						Las listas
 					</Typography>
@@ -95,9 +85,9 @@ export default function Lists() {
 							</Button>
 						)}
 					</Paper>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

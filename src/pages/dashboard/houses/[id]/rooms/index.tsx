@@ -23,6 +23,10 @@ import { FormEvent, useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Tile, TileContainer } from '../../../../../components/tiles';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../../components/page-layout';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -33,13 +37,7 @@ export default function Rooms() {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			<CreateRoomModal
 				open={showModal}
@@ -58,15 +56,7 @@ export default function Rooms() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						padding: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<Typography align="center" variant="h2">
 						Los cuartos
 					</Typography>
@@ -78,9 +68,9 @@ export default function Rooms() {
 							<AddIcon />
 						</Tile>
 					</TileContainer>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

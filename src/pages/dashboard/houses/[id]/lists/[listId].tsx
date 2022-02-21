@@ -32,6 +32,10 @@ import { useUser } from '../../../../../lib/hooks/use-user';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import {
+	PageBackground,
+	PageContainer,
+} from '../../../../../components/page-layout';
 
 export default function List() {
 	const theme = useTheme();
@@ -53,13 +57,7 @@ export default function List() {
 	const settingsPopper = Boolean(anchorEl);
 
 	return (
-		<div
-			css={{
-				backgroundColor: theme.palette.background.default,
-				minHeight: '100vh',
-				color: 'white',
-			}}
-		>
+		<PageBackground>
 			<Navbar />
 			<AddItemModal
 				key={addItemId}
@@ -85,15 +83,7 @@ export default function List() {
 					<CircularProgress />
 				</div>
 			) : (
-				<Container
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: theme.spacing(4),
-						padding: theme.spacing(4),
-					}}
-				>
+				<PageContainer>
 					<EditNameModal
 						key={editNameId}
 						open={editNameOpen}
@@ -238,9 +228,9 @@ export default function List() {
 							</Button>
 						)}
 					</Paper>
-				</Container>
+				</PageContainer>
 			)}
-		</div>
+		</PageBackground>
 	);
 }
 

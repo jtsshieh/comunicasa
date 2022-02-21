@@ -41,7 +41,7 @@ export default function Chat() {
 	}, [router, error, chat]);
 
 	return (
-		<PageBackground>
+		<PageBackground css={{ display: 'flex', flexDirection: 'column' }}>
 			<Navbar />
 			{!chat || !user ? (
 				<div
@@ -56,7 +56,7 @@ export default function Chat() {
 					<CircularProgress />
 				</div>
 			) : (
-				<PageContainer css={{ height: 'calc(100vh - 88px)' }}>
+				<PageContainer css={{ flex: 1 }}>
 					<div
 						css={{
 							width: '100%',
@@ -153,6 +153,7 @@ function MessageContainer() {
 	const sendMessage = useCallback(
 		async (e: FormEvent) => {
 			e.preventDefault();
+			if (text.length === 0) return;
 			const payload = {
 				content: text,
 			};
@@ -179,18 +180,20 @@ function MessageContainer() {
 	return (
 		<Paper
 			css={{
-				width: '100%',
 				flex: 1,
+				width: '100%',
 				padding: theme.spacing(2),
-				display: 'grid',
-				gridTemplateRows: 'auto max-content',
+				display: 'flex',
+				flexDirection: 'column',
 				gap: theme.spacing(2),
 			}}
 		>
 			<div
 				css={{
-					overflow: 'auto',
+					overflowY: 'auto',
 					display: 'flex',
+					flex: '1 1 auto',
+					height: '0px',
 					flexDirection: 'column-reverse',
 					gap: theme.spacing(4),
 				}}

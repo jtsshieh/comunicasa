@@ -128,6 +128,7 @@ export default function SignIn() {
 						name="confirmation"
 						type="password"
 						onBlur={handleOnBlur}
+						error={passwordError}
 					/>
 				</div>
 				<div

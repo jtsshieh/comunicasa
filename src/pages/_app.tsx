@@ -43,6 +43,15 @@ export default function App({ Component, pageProps }: AppProps) {
 								href="/favicon-16x16.png"
 							/>
 							<link rel="manifest" href="/site.webmanifest" />
+							<link
+								rel="mask-icon"
+								href="/safari-pinned-tab.svg"
+								color="#274753"
+							/>
+							<meta name="apple-mobile-web-app-title" content="Comunicasa" />
+							<meta name="application-name" content="Comunicasa" />
+							<meta name="msapplication-TileColor" content="#da532c" />
+							<meta name="theme-color" content="#ffffff" />
 						</Head>
 						<Component {...pageProps} />
 					</LocalizationProvider>

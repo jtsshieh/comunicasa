@@ -6,6 +6,9 @@ import {
 	Popover,
 	Avatar,
 	darken,
+	useMediaQuery,
+	IconButton,
+	Collapse,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
@@ -14,14 +17,100 @@ import { useRouter } from 'next/router';
 import { useHouse } from '../../lib/hooks/use-house';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import { ProfileDropdown } from '../profile-dropdown';
+import { Theme } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export function Navbar() {
 	const theme = useTheme();
+	const house = useHouse();
+	const isMobile = useMediaQuery<Theme>((theme) =>
+		theme.breakpoints.down('md')
+	);
+	const [open, setOpen] = useState(false);
+
+	if (!house) return <></>;
+
+	return (
+		<>
+			<nav
+				css={{
+					padding: theme.spacing(2),
+					display: 'grid',
+					gridTemplateColumns: '1fr auto 1fr',
+					alignItems: 'center',
+					backgroundColor: darken(theme.palette.background.default, 0.5),
+					color: 'white',
+				}}
+			>
+				{!isMobile ? (
+					<>
+						<BackToDashboard />
+						<Items />
+						<Profile />
+					</>
+				) : (
+					<>
+						<div>
+							<IconButton onClick={() => setOpen(!open)}>
+								<MenuIcon />
+							</IconButton>
+						</div>
+						<span />
+						<Profile />
+					</>
+				)}
+			</nav>
+			{isMobile && (
+				<Collapse
+					in={open}
+					css={{
+						position: 'absolute',
+						width: '100%',
+						backgroundColor: darken(theme.palette.background.default, 0.5),
+						padding: theme.spacing(2),
+						zIndex: 1000,
+					}}
+				>
+					<BackToDashboard mobile={true} />
+					<Items mobile={true} />
+				</Collapse>
+			)}
+		</>
+	);
+}
+
+function BackToDashboard({ mobile = false }) {
+	const theme = useTheme();
+	return (
+		<div
+			css={{
+				display: 'flex',
+				justifyContent: mobile ? 'center' : undefined,
+			}}
+		>
+			<Link href="/dashboard" passHref>
+				<Button
+					startIcon={<ChevronLeft />}
+					css={{
+						padding: theme.spacing(1),
+						fontWeight: 400,
+						fontSize: '1em',
+					}}
+				>
+					Regresar a panel web
+				</Button>
+			</Link>
+		</div>
+	);
+}
+
+function Items({ mobile = false }) {
+	const theme = useTheme();
 	const { user } = useUser();
-	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const house = useHouse();
 
-	if (!user || !house) return <></>;
+	if (!house || !user) return <></>;
+
 	const navbarItems = [
 		{
 			link: `/dashboard/houses/${house.id}`,
@@ -61,74 +150,59 @@ export function Navbar() {
 		});
 	}
 	return (
-		<nav
+		<div
 			css={{
-				padding: theme.spacing(2),
 				display: 'flex',
+				gap: theme.spacing(2),
+				flex: 1,
+				justifyContent: 'center',
 				alignItems: 'center',
-				backgroundColor: darken(theme.palette.background.default, 0.5),
-				color: 'white',
+				flexDirection: mobile ? 'column' : 'row',
 			}}
 		>
-			<div css={{ flex: 1 }}>
-				<Link href="/dashboard" passHref>
-					<Button
-						startIcon={<ChevronLeft />}
-						css={{
-							padding: theme.spacing(1),
-							fontWeight: 400,
-							fontSize: '1em',
-						}}
-					>
-						Regresar a panel web
-					</Button>
-				</Link>
-			</div>
-			<div
+			{navbarItems.map((item) => (
+				<NavbarItem link={item.link} name={item.name} key={item.name} />
+			))}
+		</div>
+	);
+}
+
+function Profile() {
+	const theme = useTheme();
+	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const { user } = useUser();
+
+	if (!user) return <></>;
+	return (
+		<div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+			<Button
+				endIcon={<ExpandMoreIcon />}
+				startIcon={<Avatar alt="Avatar" src={`/api/user/${user.id}/avatar`} />}
+				onClick={(e) => setAnchorEl(e.currentTarget)}
 				css={{
-					display: 'flex',
-					gap: theme.spacing(2),
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
+					padding: theme.spacing(1),
+					fontWeight: 400,
+					fontSize: '1em',
 				}}
 			>
-				{navbarItems.map((item) => (
-					<NavbarItem link={item.link} name={item.name} key={item.name} />
-				))}
-			</div>
-			<div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-				<Button
-					endIcon={<ExpandMoreIcon />}
-					startIcon={
-						<Avatar alt="Avatar" src={`/api/user/${user.id}/avatar`} />
-					}
-					onClick={(e) => setAnchorEl(e.currentTarget)}
-					css={{
-						padding: theme.spacing(1),
-						fontWeight: 400,
-						fontSize: '1em',
-					}}
-				>
-					{user.name}
-				</Button>
-				<Popover
-					open={Boolean(anchorEl)}
-					anchorEl={anchorEl}
-					onClose={() => setAnchorEl(null)}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'right',
-					}}
-					transformOrigin={{
-						vertical: 'top',
-						horizontal: 'right',
-					}}
-				>
-					<ProfileDropdown />
-				</Popover>
-			</div>
-		</nav>
+				{user.name}
+			</Button>
+			<Popover
+				open={Boolean(anchorEl)}
+				anchorEl={anchorEl}
+				onClose={() => setAnchorEl(null)}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right',
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'right',
+				}}
+			>
+				<ProfileDropdown />
+			</Popover>
+		</div>
 	);
 }
 

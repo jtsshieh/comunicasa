@@ -58,8 +58,6 @@ export default function List() {
 				backgroundColor: theme.palette.background.default,
 				minHeight: '100vh',
 				color: 'white',
-				display: 'flex',
-				flexDirection: 'column',
 			}}
 		>
 			<Navbar />

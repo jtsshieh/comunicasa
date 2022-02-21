@@ -19,6 +19,13 @@ import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import { ProfileDropdown } from '../profile-dropdown';
 import { Theme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from '@mui/icons-material/Settings';
+import RoomIcon from '@mui/icons-material/Room';
+import MessageIcon from '@mui/icons-material/Message';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import PeopleIcon from '@mui/icons-material/People';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 export function Navbar() {
 	const theme = useTheme();
@@ -114,23 +121,28 @@ function Items({ mobile = false }) {
 	const navbarItems = [
 		{
 			link: `/dashboard/houses/${house.id}`,
-			name: 'Incio',
+			name: 'Inicio',
+			icon: <HomeIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/rooms`,
-			name: 'Cuartos',
+			name: 'Los Cuartos',
+			icon: <RoomIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/chat`,
-			name: 'Mensajes',
+			name: 'Los Mensajes',
+			icon: <MessageIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/lists`,
-			name: 'Listas',
+			name: 'Las Listas',
+			icon: <FormatListBulletedIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/people`,
-			name: 'Gentes',
+			name: 'Las Gentes',
+			icon: <PeopleIcon />,
 		},
 	];
 
@@ -141,12 +153,14 @@ function Items({ mobile = false }) {
 		navbarItems.push({
 			link: `/dashboard/houses/${house.id}/chores`,
 			name: 'Quehaceres',
+			icon: <CleaningServicesIcon />,
 		});
 	}
 	if (user.ownedHouseIds.includes(house.id)) {
 		navbarItems.push({
 			link: `/dashboard/houses/${house.id}/configuration`,
 			name: 'Configuración',
+			icon: <SettingsIcon />,
 		});
 	}
 	return (
@@ -161,7 +175,7 @@ function Items({ mobile = false }) {
 			}}
 		>
 			{navbarItems.map((item) => (
-				<NavbarItem link={item.link} name={item.name} key={item.name} />
+				<NavbarItem item={item} key={item.name} />
 			))}
 		</div>
 	);
@@ -206,22 +220,32 @@ function Profile() {
 	);
 }
 
-function NavbarItem({ link, name }: { link: string; name: string }) {
+function NavbarItem({
+	item: { link, name, icon },
+}: {
+	item: { link: string; name: string; icon: JSX.Element };
+}) {
 	const router = useRouter();
+	const theme = useTheme();
+	const selected =
+		name === 'Inicio' ? router.asPath === link : router.asPath.startsWith(link);
 	return (
 		<Link href={link} passHref>
 			<MuiLink
 				variant="body1"
-				css={
-					(
-						name === 'Incio'
-							? router.asPath === link
-							: router.asPath.startsWith(link)
-					)
-						? { color: 'white' }
-						: null
-				}
+				css={Object.assign({
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					color: selected ? 'white' : undefined,
+
+					[theme.breakpoints.down('md')]: {
+						flexDirection: 'row',
+						gap: theme.spacing(1),
+					},
+				})}
 			>
+				{icon}
 				{name}
 			</MuiLink>
 		</Link>

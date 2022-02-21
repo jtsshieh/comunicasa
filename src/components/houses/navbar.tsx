@@ -126,22 +126,22 @@ function Items({ mobile = false }) {
 		},
 		{
 			link: `/dashboard/houses/${house.id}/rooms`,
-			name: 'Los Cuartos',
+			name: 'Cuartos',
 			icon: <RoomIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/chat`,
-			name: 'Los Mensajes',
+			name: 'Mensajes',
 			icon: <MessageIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/lists`,
-			name: 'Las Listas',
+			name: 'Listas',
 			icon: <FormatListBulletedIcon />,
 		},
 		{
 			link: `/dashboard/houses/${house.id}/people`,
-			name: 'Las Gentes',
+			name: 'Gentes',
 			icon: <PeopleIcon />,
 		},
 	];

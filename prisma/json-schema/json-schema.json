@@ -16,6 +16,12 @@
         "password": {
           "type": "string"
         },
+        "createdChores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chore"
+          }
+        },
         "chores": {
           "type": "array",
           "items": {
@@ -189,20 +195,20 @@
           "type": "string"
         },
         "completed": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
-        "createdAt": {
+        "dueAt": {
           "type": "string",
           "format": "date-time"
         },
-        "completedAt": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "date-time"
-        },
         "assignedTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "createdBy": {
           "$ref": "#/definitions/User"
         },
         "house": {

@@ -351,7 +351,7 @@ function DeleteRoomConfirmation({
 			<DialogTitle>¿Eliminar el cuarto?</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					¿Está seguro de que quiere eliminar esto cuarto? ¡No puede recuperar!
+					¿Está seguro de que quiere eliminar este cuarto? ¡No puede recuperar!
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>

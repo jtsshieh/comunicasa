@@ -21,14 +21,16 @@ model User {
   email    String @unique
   password String
 
-  // One to Many
-  chores Chore[]
+  createdChores Chore[] @relation("createdChores")
+
 
   // Many to Many
+  choreIds       String[] @db.Array(ObjectId)
   ownedHouseIds  String[] @db.Array(ObjectId)
   memberHouseIds String[] @db.Array(ObjectId)
   guestHouseIds  String[] @db.Array(ObjectId)
 
+  chores       Chore[] @relation("chores", fields: [choreIds])
   ownedHouses  House[] @relation("owners", fields: [ownedHouseIds])
   memberHouses House[] @relation("members", fields: [memberHouseIds])
   guestHouses  House[] @relation("guests", fields: [guestHouseIds])
@@ -96,16 +98,17 @@ model ListItem {
 }
 
 model Chore {
-  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id          String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
   name        String
   description String
-  completed   Boolean
-  createdAt   DateTime  @default(now())
-  completedAt DateTime?
+  completed   Boolean  @default(false)
+  dueAt       DateTime
 
-  assignedToId String @db.ObjectId
-  houseId      String @db.ObjectId
+  assignedToIds String[] @db.ObjectId
+  houseId       String   @db.ObjectId
+  createdById   String   @db.ObjectId
 
-  assignedTo User  @relation(fields: [assignedToId], references: [id])
-  house      House @relation(fields: [houseId], references: [id])
+  assignedTo User[] @relation("chores", fields: [assignedToIds])
+  createdBy  User   @relation("createdChores", fields: [createdById], references: [id])
+  house      House  @relation(fields: [houseId], references: [id])
 }

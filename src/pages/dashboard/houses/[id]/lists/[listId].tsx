@@ -348,7 +348,7 @@ function DeleteListItemConfirmation({
 			<DialogTitle>¿Eliminar el elemento de lista?</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					¿Está seguro de que quiere eliminar esto elemento? ¡No puede
+					¿Está seguro de que quiere eliminar este elemento? ¡No puede
 					recuperar!
 				</DialogContentText>
 			</DialogContent>

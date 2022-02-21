@@ -40,15 +40,20 @@ export function Navbar() {
 			name: 'Listas',
 		},
 		{
-			link: `/dashboard/houses/${house.id}/chores`,
-			name: 'Quehaceres',
-		},
-		{
 			link: `/dashboard/houses/${house.id}/people`,
 			name: 'Gentes',
 		},
 	];
 
+	if (
+		user.ownedHouseIds.includes(house.id) ||
+		user.memberHouseIds.includes(house.id)
+	) {
+		navbarItems.push({
+			link: `/dashboard/houses/${house.id}/chores`,
+			name: 'Quehaceres',
+		});
+	}
 	if (user.ownedHouseIds.includes(house.id)) {
 		navbarItems.push({
 			link: `/dashboard/houses/${house.id}/configuration`,

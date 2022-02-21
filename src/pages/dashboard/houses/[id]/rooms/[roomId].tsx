@@ -31,6 +31,7 @@ import { Panel } from '../../../../../components/panel';
 import { useDialogState } from '../../../../../lib/hooks/use-dialog-state';
 import Link from 'next/link';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import { breakpoints } from '@mui/system';
 
 export default function Rooms() {
 	const theme = useTheme();
@@ -82,6 +83,10 @@ export default function Rooms() {
 							width: '100%',
 							display: 'grid',
 							gridTemplateColumns: '1fr auto 1fr',
+
+							[theme.breakpoints.down('md')]: {
+								gridTemplateColumns: 'auto',
+							},
 						}}
 					>
 						<div

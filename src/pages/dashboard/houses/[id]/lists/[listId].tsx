@@ -106,12 +106,19 @@ export default function List() {
 							width: '100%',
 							display: 'grid',
 							gridTemplateColumns: '1fr auto 1fr',
+							[theme.breakpoints.down('md')]: {
+								gridTemplateAreas: '"back settings"\n' + '"text text"',
+								gridTemplateColumns: 'none',
+							},
 						}}
 					>
 						<div
 							css={{
 								display: 'flex',
 								alignItems: 'center',
+								[theme.breakpoints.down('md')]: {
+									gridArea: 'back',
+								},
 							}}
 						>
 							<Link href={`/dashboard/houses/${router.query.id}/lists`}>
@@ -127,7 +134,15 @@ export default function List() {
 								</Button>
 							</Link>
 						</div>
-						<Typography align="center" variant="h2">
+						<Typography
+							align="center"
+							variant="h2"
+							css={{
+								[theme.breakpoints.down('md')]: {
+									gridArea: 'text',
+								},
+							}}
+						>
 							{list.name}
 						</Typography>
 						<div
@@ -136,6 +151,9 @@ export default function List() {
 								alignItems: 'center',
 								justifyContent: 'flex-end',
 								width: '100%',
+								[theme.breakpoints.down('md')]: {
+									gridArea: 'settings',
+								},
 							}}
 						>
 							<IconButton

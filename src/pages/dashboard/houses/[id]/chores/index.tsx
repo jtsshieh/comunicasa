@@ -50,9 +50,6 @@ export default function Chores() {
 		if (!house.ownerIds.includes(user.id) && !house.memberIds.includes(user.id))
 			router.push(`/dashboard/houses/${house.id}`);
 	}, [house, user, router]);
-	const isMobile = useMediaQuery<Theme>((theme) =>
-		theme.breakpoints.down('md')
-	);
 
 	return (
 		<div
@@ -92,7 +89,10 @@ export default function Chores() {
 						css={{
 							display: 'grid',
 							gap: theme.spacing(4),
-							gridTemplateColumns: !isMobile ? 'repeat(2, 1fr)' : 'auto',
+							gridTemplateColumns: 'repeat(2, 1fr)',
+							[theme.breakpoints.down('md')]: {
+								gridTemplateColumns: 'auto',
+							},
 						}}
 					>
 						<ForYou />

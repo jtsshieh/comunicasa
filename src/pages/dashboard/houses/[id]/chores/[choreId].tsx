@@ -90,6 +90,9 @@ export default function ChoreItem() {
 							width: '100%',
 							display: 'grid',
 							gridTemplateColumns: '1fr auto 1fr',
+							[theme.breakpoints.down('md')]: {
+								gridTemplateColumns: 'auto',
+							},
 						}}
 					>
 						<div

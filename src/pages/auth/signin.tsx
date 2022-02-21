@@ -1,4 +1,10 @@
-import { Button, TextField, Typography, useTheme } from '@mui/material';
+import {
+	Button,
+	Container,
+	TextField,
+	Typography,
+	useTheme,
+} from '@mui/material';
 import Link from 'next/link';
 import { FormEvent, useCallback, useState } from 'react';
 import { useUser } from '../../lib/hooks/use-user';
@@ -51,9 +57,9 @@ export default function SignIn() {
 				color: 'white',
 			}}
 		>
-			<form
+			<Container
+				component="form"
 				css={{
-					width: '40vw',
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
@@ -107,7 +113,7 @@ export default function SignIn() {
 						Siguiente
 					</Button>
 				</div>
-			</form>
+			</Container>
 		</div>
 	);
 }

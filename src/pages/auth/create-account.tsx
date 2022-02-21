@@ -1,4 +1,10 @@
-import { Button, TextField, Typography, useTheme } from '@mui/material';
+import {
+	Button,
+	Container,
+	TextField,
+	Typography,
+	useTheme,
+} from '@mui/material';
 import { FocusEvent, FormEvent, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -71,9 +77,9 @@ export default function SignIn() {
 				color: 'white',
 			}}
 		>
-			<form
+			<Container
+				component="form"
 				css={{
-					width: '40vw',
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
@@ -145,7 +151,7 @@ export default function SignIn() {
 						Crear Cuenta
 					</Button>
 				</div>
-			</form>
+			</Container>
 		</div>
 	);
 }

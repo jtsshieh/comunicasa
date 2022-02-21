@@ -10,6 +10,7 @@ import {
 	Avatar,
 	Button,
 	CircularProgress,
+	darkScrollbar,
 	IconButton,
 	Paper,
 	TextField,
@@ -196,6 +197,7 @@ function MessageContainer() {
 					height: '0px',
 					flexDirection: 'column-reverse',
 					gap: theme.spacing(4),
+					...darkScrollbar(),
 				}}
 			>
 				{messages.map((message) => (

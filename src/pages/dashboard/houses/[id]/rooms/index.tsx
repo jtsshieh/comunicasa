@@ -24,12 +24,16 @@ import {
 	PageBackground,
 	PageContainer,
 } from '../../../../../components/page-layout';
+import { useHouse } from '../../../../../lib/hooks/use-house';
+import { useUser } from '../../../../../lib/hooks/use-user';
 
 export default function Rooms() {
 	const router = useRouter();
 	const { data: rooms } = useSWR<Room[]>(
 		router.query.id && `/api/house/${router.query.id}/rooms`
 	);
+	const house = useHouse();
+	const { user } = useUser();
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -39,7 +43,7 @@ export default function Rooms() {
 				open={showModal}
 				handleClose={() => setShowModal(false)}
 			/>
-			{!rooms ? (
+			{!rooms || !house || !user ? (
 				<div
 					css={{
 						height: '100%',
@@ -60,9 +64,11 @@ export default function Rooms() {
 						{rooms.map((room) => (
 							<RoomTile key={room.id} room={room} />
 						))}
-						<Tile onClick={() => setShowModal(true)}>
-							<AddIcon />
-						</Tile>
+						{!user.guestHouseIds.includes(house.id) && (
+							<Tile onClick={() => setShowModal(true)}>
+								<AddIcon />
+							</Tile>
+						)}
 					</TileContainer>
 				</PageContainer>
 			)}

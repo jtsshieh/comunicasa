@@ -46,11 +46,6 @@ export default function ChoreItem() {
 			`/api/house/${router.query.id}/chores/${router.query.choreId}`
 	);
 	const { user } = useUser();
-	const { data: people } = useSWR<{
-		owners: User[];
-		members: User[];
-		guests: User[];
-	}>(router.query.id && `/api/house/${router.query.id}/people`);
 	useEffect(() => {
 		if (!error) return;
 		router.push(`/dashboard/houses/${router.query.id}/chores`);
@@ -59,7 +54,7 @@ export default function ChoreItem() {
 	return (
 		<PageBackground>
 			<Navbar />
-			{!chore || !people || !user ? (
+			{!chore || !user ? (
 				<div
 					css={{
 						height: '100%',
@@ -89,7 +84,10 @@ export default function ChoreItem() {
 								alignItems: 'center',
 							}}
 						>
-							<Link href={`/dashboard/houses/${router.query.id}/chores`}>
+							<Link
+								href={`/dashboard/houses/${router.query.id}/chores`}
+								passHref
+							>
 								<Button
 									startIcon={<ChevronLeft />}
 									css={{
@@ -111,7 +109,7 @@ export default function ChoreItem() {
 					<ChangeNameDescriptionPanel />
 					<AssignPeoplePanel />
 					{(chore.createdById === user.id ||
-						people.owners.some((o) => o.id === user.id)) && (
+						user.ownedHouseIds.includes(router.query.id as string)) && (
 						<DeleteChorePanel />
 					)}
 				</PageContainer>
@@ -122,11 +120,6 @@ export default function ChoreItem() {
 
 function QuickActionsPanel() {
 	const router = useRouter();
-	const { data: people } = useSWR<{
-		owners: User[];
-		members: User[];
-		guests: User[];
-	}>(router.query.id && `/api/house/${router.query.id}/people`);
 	const { data: chore } = useSWR<
 		Chore & { assignedTo: User[]; createdBy: User }
 	>(
@@ -165,9 +158,9 @@ function QuickActionsPanel() {
 		}
 	}, [router]);
 	const markDone = useCallback(async () => {
-		if (!people || !user) return;
-		if (people.owners.some((o) => o.id === user.id)) {
-			acceptDone();
+		if (!user) return;
+		if (user.ownedHouseIds.includes(router.query.id as string)) {
+			await acceptDone();
 		} else {
 			const res = await fetch(
 				`/api/house/${router.query.id}/chores/${router.query.choreId}`,
@@ -185,10 +178,9 @@ function QuickActionsPanel() {
 				);
 			}
 		}
-	}, [people, user, acceptDone, router.query.id, router.query.choreId]);
+	}, [user, acceptDone, router.query.id, router.query.choreId]);
 
 	if (
-		!people ||
 		!user ||
 		!chore ||
 		(!chore.completed && !chore.assignedToIds.includes(user.id))
@@ -197,7 +189,7 @@ function QuickActionsPanel() {
 	return (
 		<Panel>
 			{chore.completed ? (
-				people.owners.some((u) => u.id === user.id) ? (
+				user.ownedHouseIds.includes(router.query.id as string) ? (
 					<>
 						<Typography variant="h5" align="center">
 							Este quehacer está terminado
@@ -269,11 +261,6 @@ function ChangeNameDescriptionPanel() {
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const { enqueueSnackbar } = useSnackbar();
-	const { data: people } = useSWR<{
-		owners: User[];
-		members: User[];
-		guests: User[];
-	}>(router.query.id && `/api/house/${router.query.id}/people`);
 	const updateDetails = useCallback(async () => {
 		const payload = {
 			name: name,
@@ -295,7 +282,7 @@ function ChangeNameDescriptionPanel() {
 				`/api/house/${router.query.id}/chores/${router.query.choreId}`
 			);
 		}
-	}, [router, name, description]);
+	}, [router, name, description, enqueueSnackbar]);
 
 	useEffect(() => {
 		if (chore && name === '' && description === '') {
@@ -304,11 +291,11 @@ function ChangeNameDescriptionPanel() {
 		}
 		// doesn't include name/description so it only happens on first render
 	}, [chore]);
-	if (!chore || !people || !user) return <></>;
+	if (!chore || !user) return <></>;
 
 	const isElevated =
 		chore.createdById === user.id ||
-		people.owners.some((o) => o.id === user.id);
+		user.ownedHouseIds.includes(router.query.id as string);
 	return (
 		<Panel>
 			<Typography variant="h3">Cambiar el nombre y la descripción</Typography>
@@ -480,7 +467,6 @@ function AssignPeoplePanel() {
 }
 
 function DeleteChorePanel() {
-	const theme = useTheme();
 	const [open, show, handleClose, id] = useDialogState();
 
 	return (

@@ -12,7 +12,9 @@ import {
 	CircularProgress,
 	darkScrollbar,
 	IconButton,
+	InputBase,
 	Paper,
+	Popover,
 	TextField,
 	Typography,
 	useTheme,
@@ -20,9 +22,13 @@ import {
 import Link from 'next/link';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useUser } from '../../../../../../lib/hooks/use-user';
 import { grey } from '@mui/material/colors';
+import data from 'emoji-mart/data/twitter.json';
+import { Emoji, EmojiData, NimbleEmoji, NimblePicker } from 'emoji-mart';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import 'emoji-mart/css/emoji-mart.css';
 
 export default function Chat() {
 	const theme = useTheme();
@@ -151,6 +157,8 @@ function MessageContainer() {
 		{ refreshInterval: 1000 }
 	);
 	const [text, setText] = useState('');
+	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const sendMessage = useCallback(
 		async (e: FormEvent) => {
 			e.preventDefault();
@@ -176,6 +184,13 @@ function MessageContainer() {
 			}
 		},
 		[text, router]
+	);
+	const onEmojiSelect = useCallback(
+		(emoji: EmojiData) => {
+			setText(text + emoji.colons + ' ');
+			setAnchorEl(null);
+		},
+		[text]
 	);
 	if (!messages) return <></>;
 	return (
@@ -226,7 +241,12 @@ function MessageContainer() {
 							</Typography>
 						</div>
 						<div css={{ gridArea: 'content' }}>
-							<Typography variant="body1">{message.content}</Typography>
+							<Typography
+								variant="body1"
+								css={{ display: 'flex', alignItems: 'center' }}
+							>
+								{generatePreview(message.content)}
+							</Typography>
 						</div>
 					</div>
 				))}
@@ -241,17 +261,80 @@ function MessageContainer() {
 				onSubmit={sendMessage}
 			>
 				<TextField
-					autoFocus
 					fullWidth
 					value={text}
 					onChange={(e) => setText(e.target.value)}
-					name="message"
-					label="Mensaje"
+					placeholder="Escribir la mensaje"
 				/>
-				<Button variant="contained" type="submit">
+				<Popover
+					open={Boolean(anchorEl)}
+					anchorEl={anchorEl}
+					onClose={() => setAnchorEl(null)}
+					anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+					}}
+					transformOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right',
+					}}
+				>
+					<NimblePicker
+						theme="dark"
+						set="twitter"
+						data={data}
+						showSkinTones={false}
+						showPreview={false}
+						color={theme.palette.primary.main}
+						onSelect={onEmojiSelect}
+						skin={1}
+						autoFocus
+					/>
+				</Popover>
+				<IconButton onClick={() => setAnchorEl(buttonRef.current)}>
+					<EmojiEmotionsIcon />
+				</IconButton>
+				<Button variant="contained" type="submit" ref={buttonRef}>
 					Mandar
 				</Button>
 			</form>
 		</Paper>
 	);
+}
+
+function generatePreview(text: string) {
+	const result = [];
+	let begin = 0;
+	let beginEmoji = -1;
+	for (let i = 0; i < text.length; i++) {
+		// start/end emoji
+		if (text[i] === ':') {
+			// start emoji
+			if (beginEmoji === -1) {
+				beginEmoji = i;
+
+				// take text before emoji and throw into span
+
+				result.push(<span>{text.slice(begin, i)}</span>);
+				begin = -1;
+				// end emoji
+			} else {
+				result.push(
+					<NimbleEmoji
+						data={data}
+						size={24}
+						emoji={text.slice(beginEmoji, i + 1)}
+						set="twitter"
+					/>
+				);
+				// reset emoji counter and start taking text
+				beginEmoji = -1;
+				begin = i + 1;
+			}
+		}
+	}
+
+	if (begin !== -1) result.push(<span>{text.slice(begin)}</span>);
+	if (result.length === 0) result.push(<span>{text}</span>);
+	return <>{result}</>;
 }

@@ -16,7 +16,7 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   email    String @unique
   password String
@@ -27,25 +27,25 @@ model User {
   ownedChats    Chat[]        @relation("ownedChats")
 
   // Many to Many
-  choreIds       String[] @db.Array(ObjectId)
-  ownedHouseIds  String[] @db.Array(ObjectId)
-  memberHouseIds String[] @db.Array(ObjectId)
-  guestHouseIds  String[] @db.Array(ObjectId)
-  roomIds        String[] @db.Array(ObjectId)
-  chatIds        String[] @db.Array(ObjectId)
+  choreIds       String[] @db.ObjectId
+  ownedHouseIds  String[] @db.ObjectId
+  memberHouseIds String[] @db.ObjectId
+  guestHouseIds  String[] @db.ObjectId
+  roomIds        String[] @db.ObjectId
+  chatIds        String[] @db.ObjectId
 
-  chores       Chore[] @relation("chores", fields: [choreIds])
-  ownedHouses  House[] @relation("owners", fields: [ownedHouseIds])
-  memberHouses House[] @relation("members", fields: [memberHouseIds])
-  guestHouses  House[] @relation("guests", fields: [guestHouseIds])
-  rooms        Room[]  @relation(fields: [roomIds])
-  chats        Chat[]  @relation("memberChats", fields: [chatIds])
+  chores       Chore[] @relation("chores", fields: [choreIds], references: [id])
+  ownedHouses  House[] @relation("owners", fields: [ownedHouseIds], references: [id])
+  memberHouses House[] @relation("members", fields: [memberHouseIds], references: [id])
+  guestHouses  House[] @relation("guests", fields: [guestHouseIds], references: [id])
+  rooms        Room[]  @relation(fields: [roomIds], references: [id])
+  chats        Chat[]  @relation("memberChats", fields: [chatIds], references: [id])
 
   avatar UserAvatar?
 }
 
 model UserAvatar {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   avatar Bytes
 
@@ -54,18 +54,18 @@ model UserAvatar {
 }
 
 model House {
-  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 
 
   // Many to Many
-  ownerIds  String[] @db.Array(ObjectId)
-  memberIds String[] @db.Array(ObjectId)
-  guestIds  String[] @db.Array(ObjectId)
+  ownerIds  String[] @db.ObjectId
+  memberIds String[] @db.ObjectId
+  guestIds  String[] @db.ObjectId
 
-  owners  User[] @relation("owners", fields: [ownerIds])
-  members User[] @relation("members", fields: [memberIds])
-  guests  User[] @relation("guests", fields: [guestIds])
+  owners  User[] @relation("owners", fields: [ownerIds], references: [id])
+  members User[] @relation("members", fields: [memberIds], references: [id])
+  guests  User[] @relation("guests", fields: [guestIds], references: [id])
 
   // One to Many
   rooms  Room[]
@@ -75,18 +75,18 @@ model House {
 }
 
 model Room {
-  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 
   houseId String @db.ObjectId
   house   House  @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  ownerIds String[] @db.Array(ObjectId)
-  owners   User[]   @relation(fields: [ownerIds])
+  ownerIds String[] @db.ObjectId
+  owners   User[]   @relation(fields: [ownerIds], references: [id])
 }
 
 model List {
-  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 
   houseId String @db.ObjectId
@@ -96,7 +96,7 @@ model List {
 }
 
 model ListItem {
-  id      String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
   title   String
   checked Boolean
 
@@ -105,7 +105,7 @@ model ListItem {
 }
 
 model Chore {
-  id          String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   completed   Boolean  @default(false)
@@ -113,36 +113,36 @@ model Chore {
 
   // Many to Many
   assignedToIds String[] @db.ObjectId
-  assignedTo    User[]   @relation("chores", fields: [assignedToIds])
+  assignedTo    User[]   @relation("chores", fields: [assignedToIds], references: [id])
 
   // One to Many
   houseId     String @db.ObjectId
   createdById String @db.ObjectId
 
-  createdBy User  @relation("createdChores", fields: [createdById], references: [id])
+  createdBy User  @relation("createdChores", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
   house     House @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Chat {
-  id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 
   // Many to many
-  memberIds String[] @db.Array(ObjectId)
-  members   User[]   @relation("memberChats", fields: [memberIds])
+  memberIds String[] @db.ObjectId
+  members   User[]   @relation("memberChats", fields: [memberIds], references: [id])
 
   // One to Many
   houseId String @db.ObjectId
   ownerId String @db.ObjectId
 
   house House @relation(fields: [houseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  owner User  @relation("ownedChats", fields: [ownerId], references: [id])
+  owner User  @relation("ownedChats", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   messages ChatMessage[]
 }
 
 model ChatMessage {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   content   String
   createdAt DateTime @default(now())
 

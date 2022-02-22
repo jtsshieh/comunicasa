@@ -1,7 +1,6 @@
 import {
 	Avatar,
 	Button,
-	Chip,
 	CircularProgress,
 	Dialog,
 	DialogActions,
@@ -15,7 +14,6 @@ import {
 	Menu,
 	MenuItem,
 	Select,
-	Stack,
 	TextField,
 	Typography,
 	useTheme,
@@ -23,8 +21,8 @@ import {
 import { useRouter } from 'next/router';
 import { useUser } from '../../../../../../lib/hooks/use-user';
 import useSWR, { mutate } from 'swr';
-import { Chat as ChatModel, Room, User } from '@prisma/client';
-import { FormEvent, Fragment, useCallback, useEffect, useState } from 'react';
+import { Chat as ChatModel, User } from '@prisma/client';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { useDialogState } from '../../../../../../lib/hooks/use-dialog-state';
 import { Navbar } from '../../../../../../components/houses/navbar';
 import { DeleteConfirmation } from '../../../../../../components/delete-confirmation';

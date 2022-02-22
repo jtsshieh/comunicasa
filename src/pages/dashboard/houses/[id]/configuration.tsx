@@ -1,17 +1,7 @@
-import {
-	Button,
-	CircularProgress,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Typography,
-	useTheme,
-} from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import { useHouse } from '../../../../lib/hooks/use-house';
 import { Navbar } from '../../../../components/houses/navbar';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Panel } from '../../../../components/panel';

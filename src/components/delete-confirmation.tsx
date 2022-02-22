@@ -1,6 +1,3 @@
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
-import { mutate } from 'swr';
 import {
 	Button,
 	Dialog,
@@ -9,7 +6,6 @@ import {
 	DialogContentText,
 	DialogTitle,
 } from '@mui/material';
-import { useDialogState } from '../lib/hooks/use-dialog-state';
 
 export function DeleteConfirmation({
 	open,

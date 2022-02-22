@@ -4,7 +4,7 @@ import {
 } from '../../../../../../components/page-layout';
 import { Navbar } from '../../../../../../components/houses/navbar';
 import useSWR, { mutate } from 'swr';
-import { Chat as ChatModel, User, ChatMessage } from '@prisma/client';
+import { Chat as ChatModel, ChatMessage, User } from '@prisma/client';
 import { useRouter } from 'next/router';
 import {
 	Avatar,
@@ -12,7 +12,6 @@ import {
 	CircularProgress,
 	darkScrollbar,
 	IconButton,
-	InputBase,
 	ListItemIcon,
 	Menu,
 	MenuItem,
@@ -29,13 +28,11 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useUser } from '../../../../../../lib/hooks/use-user';
 import { grey } from '@mui/material/colors';
 import data from 'emoji-mart/data/twitter.json';
-import { Emoji, EmojiData, NimbleEmoji, NimblePicker } from 'emoji-mart';
+import { EmojiData, NimbleEmoji, NimblePicker } from 'emoji-mart';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import 'emoji-mart/css/emoji-mart.css';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Chat() {
 	const theme = useTheme();

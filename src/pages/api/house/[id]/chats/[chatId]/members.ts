@@ -65,18 +65,33 @@ export default withSessionRoute(async function handler(
 			where: { id: req.query.chatId as string },
 		});
 		if (!chat) return res.status(400).json(false);
-		if (chat.ownerId !== req.session.user) return res.status(401).json(false);
 
-		const updated = await prisma.chat.update({
-			where: { id: req.query.chatId as string },
-			data: {
-				members: {
-					disconnect: {
-						id: req.body.member,
+		if (!req.body.member) {
+			const updated = await prisma.chat.update({
+				where: { id: req.query.chatId as string },
+				data: {
+					members: {
+						disconnect: {
+							id: req.session.user,
+						},
 					},
 				},
-			},
-		});
-		res.json(updated);
+			});
+			res.json(updated);
+		} else {
+			if (chat.ownerId !== req.session.user) return res.status(401).json(false);
+
+			const updated = await prisma.chat.update({
+				where: { id: req.query.chatId as string },
+				data: {
+					members: {
+						disconnect: {
+							id: req.body.member,
+						},
+					},
+				},
+			});
+			res.json(updated);
+		}
 	}
 });

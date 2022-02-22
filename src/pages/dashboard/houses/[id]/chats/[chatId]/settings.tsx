@@ -403,7 +403,7 @@ function PeopleOptions({
 				`/dashboard/houses/${router.query.id}/chats/${router.query.chatId}`
 			);
 		}
-	}, [router, person, enqueueSnackbar, handleMakeOwnerClose, setAnchorEl]);
+	}, [router, person, enqueueSnackbar, setAnchorEl]);
 
 	return (
 		<div

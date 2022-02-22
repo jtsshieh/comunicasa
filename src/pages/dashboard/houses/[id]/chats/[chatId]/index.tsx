@@ -13,6 +13,9 @@ import {
 	darkScrollbar,
 	IconButton,
 	InputBase,
+	ListItemIcon,
+	Menu,
+	MenuItem,
 	Paper,
 	Popover,
 	TextField,
@@ -29,6 +32,10 @@ import data from 'emoji-mart/data/twitter.json';
 import { Emoji, EmojiData, NimbleEmoji, NimblePicker } from 'emoji-mart';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import 'emoji-mart/css/emoji-mart.css';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Chat() {
 	const theme = useTheme();
@@ -41,11 +48,31 @@ export default function Chat() {
 			router.query.chatId &&
 			`/api/house/${router.query.id}/chats/${router.query.chatId}`
 	);
+	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
 	useEffect(() => {
 		if (error && !chat)
 			router.push(`/dashboard/houses/${router.query.id}/chats`);
 	}, [router, error, chat]);
+
+	const leaveChat = useCallback(async () => {
+		const res = await fetch(
+			`/api/house/${router.query.id}/chats/${router.query.chatId}/members`,
+			{
+				method: 'DELETE',
+				headers: {
+					'content-type': 'application/json',
+				},
+			}
+		);
+		if (res.ok) {
+			await mutate(
+				`/api/house/${router.query.id}/chats/${router.query.chatId}`
+			);
+			await mutate(`/api/house/${router.query.id}/chats`);
+			await router.push(`/dashboard/houses/${router.query.id}/chats`);
+		}
+	}, [router]);
 
 	return (
 		<PageBackground css={{ display: 'flex', flexDirection: 'column' }}>
@@ -122,22 +149,49 @@ export default function Chat() {
 								},
 							}}
 						>
-							<Link
-								href={`/dashboard/houses/${router.query.id}/chats/${router.query.chatId}/settings`}
-								passHref
-							>
-								<IconButton
-									css={{
-										transition: 'transform 0.5s',
-										'&:hover': {
-											transform: 'rotate(180deg)',
-										},
-									}}
-									disabled={!(chat.owner.id === user.id)}
+							{chat.owner.id === user.id ? (
+								<Link
+									href={`/dashboard/houses/${router.query.id}/chats/${router.query.chatId}/settings`}
+									passHref
 								>
-									<SettingsIcon />
-								</IconButton>
-							</Link>
+									<IconButton
+										css={{
+											transition: 'transform 0.5s',
+											'&:hover': {
+												transform: 'rotate(180deg)',
+											},
+										}}
+									>
+										<SettingsIcon />
+									</IconButton>
+								</Link>
+							) : (
+								<>
+									<IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+										<MoreVertIcon />
+									</IconButton>
+									<Menu
+										anchorEl={anchorEl}
+										anchorOrigin={{
+											vertical: 'bottom',
+											horizontal: 'right',
+										}}
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										open={Boolean(anchorEl)}
+										onClose={() => setAnchorEl(null)}
+									>
+										<MenuItem onClick={leaveChat}>
+											<ListItemIcon>
+												<ExitToAppIcon />
+											</ListItemIcon>
+											Salir del Chat
+										</MenuItem>
+									</Menu>
+								</>
+							)}
 						</div>
 					</div>
 					<MessageContainer />

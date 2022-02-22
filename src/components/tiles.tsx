@@ -9,21 +9,18 @@ export const TileContainer = styled('div')(({ theme }) => ({
 	width: '100%',
 }));
 
-const TileWrapper = styled(Paper)(({ theme }) => ({
+const TileWrapper = styled(Paper)({
 	display: 'flex',
 	'&:hover': {
 		cursor: 'pointer',
-		backgroundColor: alpha(
-			theme.palette.background.paper,
-			1 - theme.palette.action.hoverOpacity
-		),
+		border: '1px solid white',
 	},
 	'&::before': {
 		display: 'block',
 		content: '""',
 		paddingBottom: '100%',
 	},
-}));
+});
 
 const TileInside = styled('div')({
 	flex: 1,
@@ -34,9 +31,10 @@ const TileInside = styled('div')({
 
 export const Tile = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
 	function GridItem(props, ref) {
+		const { children, ...rest } = props;
 		return (
-			<TileWrapper>
-				<TileInside ref={ref} {...props} />
+			<TileWrapper ref={ref} {...rest}>
+				<TileInside>{children}</TileInside>
 			</TileWrapper>
 		);
 	}

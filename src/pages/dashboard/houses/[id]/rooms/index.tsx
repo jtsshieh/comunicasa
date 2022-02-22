@@ -16,7 +16,7 @@ import { Navbar } from '../../../../../components/houses/navbar';
 import { Room } from '@prisma/client';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate } from 'swr';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Tile, TileContainer } from '../../../../../components/tiles';
@@ -26,15 +26,45 @@ import {
 } from '../../../../../components/page-layout';
 import { useHouse } from '../../../../../lib/hooks/use-house';
 import { useUser } from '../../../../../lib/hooks/use-user';
+import {
+	closestCenter,
+	DndContext,
+	KeyboardSensor,
+	MouseSensor,
+	PointerSensor,
+	TouchSensor,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
+import {
+	arrayMove,
+	rectSortingStrategy,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 
 export default function Rooms() {
 	const router = useRouter();
 	const { data: rooms } = useSWR<Room[]>(
 		router.query.id && `/api/house/${router.query.id}/rooms`
 	);
+	const [sorted, setSorted] = useState<Room[]>([]);
+	useEffect(() => {
+		if (rooms) setSorted(rooms);
+	}, [rooms]);
 	const house = useHouse();
 	const { user } = useUser();
 	const [showModal, setShowModal] = useState(false);
+	const sensors = useSensors(
+		useSensor(MouseSensor),
+		useSensor(TouchSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		})
+	);
 
 	return (
 		<PageBackground>
@@ -60,16 +90,38 @@ export default function Rooms() {
 					<Typography align="center" variant="h2">
 						Los cuartos
 					</Typography>
-					<TileContainer>
-						{rooms.map((room) => (
-							<RoomTile key={room.id} room={room} />
-						))}
-						{!user.guestHouseIds.includes(house.id) && (
-							<Tile onClick={() => setShowModal(true)}>
-								<AddIcon />
-							</Tile>
-						)}
-					</TileContainer>
+					<DndContext
+						sensors={sensors}
+						collisionDetection={closestCenter}
+						onDragEnd={function handleDragEnd(event) {
+							const { active, over } = event;
+
+							if (active.id !== over?.id) {
+								setSorted((items) => {
+									const oldIndex = items.findIndex((i) => i.id === active.id);
+									const newIndex = items.findIndex((i) => i.id === over?.id);
+
+									return arrayMove(items, oldIndex, newIndex);
+								});
+							}
+						}}
+					>
+						<SortableContext
+							items={sorted.map((r) => r.id)}
+							strategy={rectSortingStrategy}
+						>
+							<TileContainer>
+								{sorted.map((room) => (
+									<RoomTile key={room.id} room={room} />
+								))}
+								{!user.guestHouseIds.includes(house.id) && (
+									<Tile onClick={() => setShowModal(true)}>
+										<AddIcon />
+									</Tile>
+								)}
+							</TileContainer>
+						</SortableContext>
+					</DndContext>
 				</PageContainer>
 			)}
 		</PageBackground>
@@ -79,10 +131,29 @@ export default function Rooms() {
 function RoomTile({ room }: { room: Room }) {
 	const theme = useTheme();
 	const router = useRouter();
+	const {
+		isDragging,
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+	} = useSortable({ id: room.id });
 
 	return (
 		<Link href={`/dashboard/houses/${router.query.id}/rooms/${room.id}`}>
-			<Tile>
+			<Tile
+				ref={setNodeRef}
+				css={[
+					{
+						transition,
+						transform: CSS.Transform.toString(transform),
+					},
+					isDragging && { zIndex: 2 },
+				]}
+				{...(isDragging ? { elevation: 24 } : {})}
+				{...attributes}
+			>
 				<div
 					css={{
 						display: 'flex',
@@ -90,15 +161,34 @@ function RoomTile({ room }: { room: Room }) {
 						padding: theme.spacing(2),
 						height: '100%',
 						justifyContent: 'space-between',
+						width: '100%',
 					}}
 				>
-					<Typography
-						variant="h4"
-						align="center"
-						css={{ overflowWrap: 'anywhere' }}
-					>
-						{room.name}
-					</Typography>
+					<div>
+						<span
+							css={{
+								width: '100%',
+								display: 'flex',
+								justifyContent: 'flex-end',
+							}}
+						>
+							<DragHandleIcon
+								{...listeners}
+								css={{
+									'&:hover': {
+										cursor: 'grab',
+									},
+								}}
+							/>
+						</span>
+						<Typography
+							variant="h4"
+							align="center"
+							css={{ overflowWrap: 'anywhere' }}
+						>
+							{room.name}
+						</Typography>
+					</div>
 					<AvatarGroup css={{ justifyContent: 'center' }}>
 						{room.ownerIds.map((owner) => (
 							<Avatar key={owner} src={`/api/user/${owner}/avatar`} />

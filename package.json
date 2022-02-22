@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "cross-env PRISMA_CLIENT_ENGINE_TYPE='dataproxy' prisma generate && next build",
+		"build": "prisma generate && next build",
 		"start": "next start",
 		"lint": "next lint",
 		"format": "npx prettier --write ."

@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "prisma generate && next build",
+		"build": "cross-env PRISMA_CLIENT_ENGINE_TYPE='dataproxy' prisma generate && next build",
 		"start": "next start",
 		"lint": "next lint",
 		"format": "npx prettier --write ."
@@ -37,6 +37,7 @@
 		"@types/emoji-mart": "^3.0.9",
 		"@types/node": "17.0.18",
 		"@types/react": "17.0.39",
+		"cross-env": "^7.0.3",
 		"eslint": "8.9.0",
 		"eslint-config-next": "12.0.10",
 		"prettier": "^2.5.1",
